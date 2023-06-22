@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('cat_id')->nullable();
             $table->unsignedBigInteger('sub_cat_id')->nullable();
             $table->unsignedBigInteger('company_id')->nullable();
-            $table->unsignedBigInteger('depot_id')->nullable();
+            $table->unsignedBigInteger('depot_id');
             $table->string('title');
             $table->longText('notes')->nullable();
             $table->double('price');

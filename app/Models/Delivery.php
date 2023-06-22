@@ -11,6 +11,7 @@ class Delivery extends Model
     protected $fillable = [
         'user_id',
         'item_id',
+        'depot_id',
         'recipient_name',
         'side_name',
         'notes',
@@ -24,5 +25,9 @@ class Delivery extends Model
     public function itemReturn()
     {
         return $this->hasMany(ItemReturn::class);
+    }
+    public function scopeAllowed($query){
+        $user = session()->get('user');
+        return $query->whereDepotId($user->depot_id);
     }
 }

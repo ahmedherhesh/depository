@@ -33,6 +33,7 @@ class DeliveryController extends Controller
         $item = Item::find($request->item_id);
         if ($item->qty >= $request->qty) {
             $data['user_id'] = $user->id;
+            $data['depot_id'] = $user->depot_id;
             $data['status']  = $item->status;
             $delivery = Delivery::create($data);
             if ($delivery) {

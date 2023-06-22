@@ -76,7 +76,7 @@
 @section('jquery')
     @parent
     <script>
-        $('.alert-success').fadeOut(3000)
+        $('.alert-success').fadeOut(6000)
         $('.alert-danger').fadeOut(6000)
     </script>
 @endsection

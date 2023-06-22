@@ -23,7 +23,13 @@ a {
     cursor: pointer;
     text-decoration: none;
 }
-
+.table{
+    width: 850px;
+    min-width: 850px;
+}
+.table tr{
+    cursor: pointer;
+}
 .d-flex {
     flex-wrap: wrap;
 }

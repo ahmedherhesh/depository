@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('item_id');
+            $table->unsignedBigInteger('depot_id');
             $table->string('recipient_name')->nullable();
             $table->string('side_name')->nullable();
             $table->longText('notes')->nullable();

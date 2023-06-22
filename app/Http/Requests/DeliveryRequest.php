@@ -10,6 +10,7 @@ class DeliveryRequest extends MasterRequest
         return [
             'user_id' => 'nullable|exists:users,id',
             'item_id' => 'required|exists:items,id',
+            'depot_id' => 'nullable|exists:depositories,id',
             'recipient_name' => 'required',
             'side_name' => 'required',
             'notes' => 'nullable|min:4',

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Delivery;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
@@ -11,6 +12,7 @@ class ReportController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return view('reports');
+        $deliveries = Delivery::allowed()->get();
+        return view('reports',compact('deliveries'));
     }
 }
