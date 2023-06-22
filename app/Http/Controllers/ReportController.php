@@ -12,7 +12,11 @@ class ReportController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $deliveries = Delivery::allowed()->get();
-        return view('reports',compact('deliveries'));
+        $user = session()->get('user');
+        $deliveries = Delivery::query();
+        if (!in_array($user->role, ['super-admin', 'admin']))
+            $deliveries = $deliveries->allowed();
+        $deliveries = $deliveries->latest()->get();
+        return view('reports', compact('deliveries'));
     }
 }
