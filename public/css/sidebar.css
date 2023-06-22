@@ -1,6 +1,6 @@
 .sidebar {
     width: 260px;
-    box-shadow: 2px 2px 8px #999;
+    box-shadow: 2px 2px 4px #ccc,-2px -2px 4px #ccc;
     height: 100vh;
     padding: 16px;
     position: fixed;
@@ -46,4 +46,10 @@
     border-top: 1px solid #ddd;
     width: calc(100% - 32px);
     padding-top: 10px;
+}
+.sidebar .nav-link.active{
+    background-color: var(--btn-color);
+    font-weight: bold;
+    font-size: 17px;
+    box-shadow: 1px 1px 4px var(--shadow-color);
 }

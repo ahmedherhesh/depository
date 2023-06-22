@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Delivery;
+use App\Models\Depository;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
@@ -13,10 +14,10 @@ class ReportController extends Controller
     public function __invoke(Request $request)
     {
         $user = session()->get('user');
-        $deliveries = Delivery::query();
+        $depots = Depository::query();
         if (!in_array($user->role, ['super-admin', 'admin']))
-            $deliveries = $deliveries->allowed();
-        $deliveries = $deliveries->latest()->get();
-        return view('reports', compact('deliveries'));
+            $depots = $depots->whereId($user->depot_id);
+        $depots = $depots->get();
+        return view('reports', compact('depots'));
     }
 }

@@ -5,6 +5,10 @@
     --main-color: #ebecee;
     --secondary-color: #6c757d;
     --hover-color: #3b3c3d;
+    --shadow-color:#ccc;
+    --btn-color:#abd8ff;
+    --btn-shadow-color:#76bbf7;
+    --btn-hover-color:var(--btn-shadow-color);
 }
 
 * {

@@ -9,4 +9,9 @@ class Depository extends Model
 {
     use HasFactory;
     protected $fillable = ['name'];
+
+    function delivery()
+    {
+        return $this->hasMany(Delivery::class,'depot_id')->latest();
+    }
 }
