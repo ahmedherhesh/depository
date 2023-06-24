@@ -3,13 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Item;
 use Illuminate\Http\Request;
 
-class HomeController extends Controller
+class HomeController extends MasterController
 {
     function index()
     {
-        $categories = Category::paginate(15);
-        return view('welcome', ['categories' => $categories]);
+        $items = Item::query();
+        if (!$this->isAdmin())
+            $items = $items->allowed();
+        $items = $items->paginate(18);
+        return view('welcome', ['items' => $items]);
     }
 }

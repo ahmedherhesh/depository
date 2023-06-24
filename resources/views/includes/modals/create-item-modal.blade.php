@@ -47,20 +47,37 @@
                             <span class="text-danger text-direction-rtl">{{ $errors->first('sub_cat_id') }}</span>
                         @endif
                     </div>
-                    <div class="md-2">
+
+                    <div class="mb-2">
+                        <label for="depot_id">اختر المخزن</label>
+                        <select class="form-control mt-2" name="depot_id" id="depot_id">
+                            <option value=""></option>
+                            @foreach ($depots as $depot)
+                                <option value="{{$depot->id}}" @if ($depot->id == old('depot_id')) selected @endif>{{$depot->name}}</option>
+                            @endforeach
+                        </select>
+                        @if ($errors->has('depot_id'))
+                            <span class="text-danger text-direction-rtl">{{ $errors->first('depot_id') }}</span>
+                        @endif
+                    </div>
+                    <div class="mb-2">
                         <label for="company_id">اختر الشركة</label>
                         <select class="form-control mt-2" name="company_id" id="company_id">
-                            <option value="" @if ('' == old('company_id')) selected @endif></option>
+                            <option value=""></option>
+                            @foreach ($companies as $company)
+                                <option value="{{$company->id}}" @if ($company->id == old('company_id')) selected @endif>{{$company->name}}</option>
+                            @endforeach
                         </select>
                         @if ($errors->has('company_id'))
                             <span class="text-danger text-direction-rtl">{{ $errors->first('company_id') }}</span>
                         @endif
                     </div>
-                    <div class="md-2">
+                    <div class="mb-2">
                         <label for="status">الحالة</label>
                         <select class="form-control mt-2" name="status" id="status">
-                            @foreach (config('enums.item_status') as $key =>  $item)
-                                <option value="{{$key}}" @if ($key == old('status')) selected @endif>{{$item}}</option>
+                            @foreach (config('enums.item_status') as $key => $item)
+                                <option value="{{ $key }}" @if ($key == old('status')) selected @endif>
+                                    {{ $item }}</option>
                             @endforeach
                         </select>
                         @if ($errors->has('status'))

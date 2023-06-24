@@ -11,6 +11,8 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ReturnItemController;
 use App\Http\Controllers\ReportController;
 use App\Models\Category;
+use App\Models\Company;
+use App\Models\Depository;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,8 +40,12 @@ Route::group(['middleware' => 'auth.web'], function () {
     view()->composer(['*'], function ($view) {
         $user = session()->get('user');
         $categories = Category::whereParentId(null)->get();
+        $companies = Company::get();
+        $depots = Depository::get();
         $view->with('user', $user);
         $view->with('categories', $categories);
+        $view->with('companies', $companies);
+        $view->with('depots', $depots);
     });
     Route::get('/', [HomeController::class, 'index'])->name('home');
 

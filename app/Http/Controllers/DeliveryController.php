@@ -7,12 +7,29 @@ use App\Models\Delivery;
 use App\Models\Item;
 use Illuminate\Http\Request;
 
-class DeliveryController extends Controller
+class DeliveryController extends MasterController
 {
-    public function delivery()
+    public function delivery(Request $request)
     {
-        $user = session()->get('user');
         $deliveries = Delivery::query();
+        //terms
+        if ($request->q)
+            $deliveries->with('items')->where('title', 'LIKE', '%' . $request->q . '%');
+        //category
+        if ($request->cat_id)
+            $deliveries->whereCatId($request->cat_id);
+        //Depository
+        if ($request->depot_id && $this->isAdmin())
+            $deliveries->whereDepotId($request->depot_id);
+        //between date and date
+        if ($request->from && $request->to)
+            $deliveries->whereBetween('date', [$request->from, $request->to]);
+        //from date
+        else if ($request->from && !$request->to)
+            $deliveries->whereDate('date', '>=',  $request->from);
+        //to date
+        else if (!$request->from && $request->to)
+            $deliveries->whereDate('date', '<=',  $request->to);
         $qty = function ($item_return) {
             $num = 0;
             foreach ($item_return as $item_r) {
@@ -20,11 +37,11 @@ class DeliveryController extends Controller
             }
             return $num;
         };
-        if ($user->role == 'admin')
+        if ($this->isAdmin())
             $deliveries = $deliveries->paginate(18);
         else
-            $deliveries = $deliveries->whereUserId($user->id)->paginate(18);
-        return view('items.deliveried-items', compact('deliveries','qty'));
+            $deliveries = $deliveries->whereUserId($this->user()->id)->allowed()->paginate(18);
+        return view('items.deliveried-items', compact('deliveries', 'qty'));
     }
     public function _delivery(DeliveryRequest $request)
     {

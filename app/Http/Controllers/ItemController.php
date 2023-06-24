@@ -46,9 +46,11 @@ class ItemController extends MasterController
     public function store(ItemRequest $request)
     {
         $data = $request->all();
-        $user = session()->get('user');
-        $data['user_id'] = $user->id;
-        $data['depot_id'] = $user->depot_id;
+        $data['user_id'] = $this->user()->id;
+        if ($this->isAdmin() && !$request->depot_id)
+            return redirect()->back()->withInput()->with('failed', 'يجب عليك اختيار مخزن');
+
+        $data['depot_id'] = $this->isAdmin() ? $request->depot_id : $this->user()->depot_id;
         $item = Item::create($data);
         if ($item)
             return redirect()->back()->with('success', 'تم إضافة المنتج بنجاح');
@@ -66,12 +68,11 @@ class ItemController extends MasterController
      */
     public function getItem($id)
     {
-        $user = session()->get('user');
         $item = Item::whereId($id);
-        if ($user->role == 'admin')
+        if ($this->isAdmin())
             $item = $item->first();
         else
-            $item = $item->whereUserId($user->id)->first();
+            $item = $item->whereUserId($this->user()->id)->first();
         return $item ? $item : '';
     }
     public function edit(string $id)
