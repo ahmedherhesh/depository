@@ -7,10 +7,13 @@
             </div>
             <div class="modal-body">
                 <h4 class="text-center mb-2">إضافة مخزن</h4>
-                <form  action="{{ route('depositories.store') }}" method="POST">
+                <form action="{{ route('depositories.store') }}" method="POST">
                     @csrf
                     <label for="name">اسم المخزن</label>
-                    <input class="form-control mb-3 mt-3" type="text" name="name" >
+                    <input class="form-control mb-3 mt-3" type="text" name="name" value="{{ old('name') }}">
+                    @if ($errors->has('name'))
+                        <span class="text-danger text-direction-rtl">{{ $errors->first('name') }}</span>
+                    @endif
                     <div class="form-group text-center">
                         <button class="btn ctm-btn ">إضافة</button>
                     </div>

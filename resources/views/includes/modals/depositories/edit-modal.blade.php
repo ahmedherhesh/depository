@@ -11,7 +11,11 @@
                     @csrf
                     <label for="edit_name">اسم المخزن</label>
                     <input type="hidden" name="_method" value="PUT">
-                    <input class="form-control mb-3 mt-3" type="text" name="name" id="edit_name">
+                    <input class="form-control mb-3 mt-3" type="text" name="name" value="{{ old('name') }}"
+                        id="edit_name">
+                    @if ($errors->has('name'))
+                        <span class="text-danger text-direction-rtl">{{ $errors->first('name') }}</span>
+                    @endif
                     <div class="form-group text-center">
                         <button class="btn ctm-btn ">حفظ</button>
                     </div>

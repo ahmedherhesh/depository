@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\DepositoryController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
@@ -8,8 +7,9 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DeliveryController;
 use App\Http\Controllers\ItemController;
-use App\Http\Controllers\ReportController;
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ReturnItemController;
+use App\Http\Controllers\ReportController;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 
@@ -59,11 +59,11 @@ Route::group(['middleware' => 'auth.web'], function () {
     Route::post('return-item', [ReturnItemController::class, 'returnItem'])->name('return.item');
     Route::get('return-to-stock', [ReturnItemController::class, 'returnToStock'])->name('return.to.stock');
 
+    Route::resource('companies', CompanyController::class);
     Route::get('reports', ReportController::class)->name('reports');
 });
 
 Route::group(['middleware' => 'admin'], function () {
     Route::resource('users', UserController::class);
-    Route::resource('companies', CompanyController::class);
     Route::resource('depositories', DepositoryController::class);
 });

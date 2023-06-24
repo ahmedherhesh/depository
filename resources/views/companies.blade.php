@@ -4,8 +4,8 @@
     @include('includes.sidebar')
     <div class="content">
         <div class="table-responsive ">
-            <button class="create-btn btn ctm-btn " data-bs-toggle="modal" data-bs-target="#createDepositoryModal"><i
-                    class="fas fa-plus ms-2"></i> <span class="text-light">اضافة مخزن</span></button>
+            <button class="create-btn btn ctm-btn " data-bs-toggle="modal" data-bs-target="#createCompanyModal"><i
+                    class="fas fa-plus ms-2"></i> <span class="text-light">اضافة شركة</span></button>
             <table class="table table-bordered align-middle text-center m-auto mb-5 mt-5">
                 <thead class="table-dark">
                     <tr>
@@ -17,22 +17,22 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($depositories as $key => $depository)
+                    @foreach ($companies as $key => $company)
                         <tr>
                             <td>{{ $key + 1 }}</td>
-                            <td>{{ $depository->name }}</td>
-                            <td><a href="{{ route('depositories.show', $depository->id) }}">عرض</a></td>
-                            <td>{{ $depository->created_at->format('Y-m-d') }}</td>
+                            <td>{{ $company->name }}</td>
+                            <td><a href="{{ route('companies.show', $company->id) }}">عرض</a></td>
+                            <td>{{ $company->created_at->format('Y-m-d') }}</td>
                             <td>
                                 <div class="d-flex justify-content-center gap-2">
                                     <button class="text-secondary btn p-0 edit-btn"
-                                        data-depot-infos='{"depot_id":"{{ $depository->id }}","name":"{{ $depository->name }}"}'
-                                        data-bs-toggle="modal" data-bs-target="#updateDepositoryModal"><i
+                                        data-company-infos='{"company_id":"{{ $company->id }}","name":"{{ $company->name }}"}'
+                                        data-bs-toggle="modal" data-bs-target="#updateCompanyModal"><i
                                             class="fa-solid fa-pen-to-square"></i></button>
-                                    <form action="{{ route('depositories.destroy', $depository->id) }}" method="POST">
+                                    <form action="{{ route('companies.destroy', $company->id) }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="_method" value="DELETE">
-                                        <button type="submit" class="text-secondary btn delete-btn p-0" data-type="المخزن"
+                                        <button type="submit" class="text-secondary btn delete-btn p-0" data-type="الشركة"
                                             class="delete-btn"><i class="fa-solid fa-trash"></i></button>
                                     </form>
                                 </div>
@@ -43,17 +43,17 @@
             </table>
         </div>
     </div>
-    @include('includes.modals.depositories.create-modal')
-    @include('includes.modals.depositories.edit-modal')
+    @include('includes.modals.companies.create-modal')
+    @include('includes.modals.companies.edit-modal')
 @endsection
 @section('js')
     @parent
     <script>
         $('.edit-btn').on('click', function() {
             let editBtn = $(this)
-            let data = $(this).data('depot-infos')
+            let data = $(this).data('company-infos')
             $('#edit_name').val(data.name)
-            $('#depot_update').attr('action', "{{ route('depositories.update', '') }}/" + data.depot_id)
+            $('#company_update').attr('action', "{{ route('companies.update', '') }}/" + data.company_id)
         })
     </script>
 @endsection
