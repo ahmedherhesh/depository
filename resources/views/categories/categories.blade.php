@@ -4,7 +4,7 @@
     @include('includes.sidebar')
     <div class="content mt-4">
         <div class="d-flex justify-content-around align-items-center mt-3">
-            @foreach ($cats as $category)
+            @forelse ($cats as $category)
                 <div class="card category m-2">
                     @if ($user->id == $category->user_id || in_array($user->role, ['super-admin', 'admin']))
                         <div class="links text-start">
@@ -54,8 +54,8 @@
                         </div>
                     </a>
                     <div class="dropdown text-center">
-                        <a class="btn btn-secondary w-100 dropdown-toggle " href="#" role="button" id="dropdownMenuLink"
-                            data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="btn btn-secondary w-100 dropdown-toggle " href="#" role="button"
+                            id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                             الأقسام الفرعية
                         </a>
                         <ul class="dropdown-menu w-100 p-1" aria-labelledby="dropdownMenuLink">
@@ -80,12 +80,13 @@
                         </ul>
                     </div>
                 </div>
-            @endforeach
+            @empty
+                @include('includes.empty')
+            @endforelse
         </div>
         <div class="mt-5 d-flex justify-content-center">
             {{ $cats->links('vendor.pagination.bootstrap-4') }}
         </div>
-        @include('includes.empty')
     </div>
 @endsection
 @section('js')

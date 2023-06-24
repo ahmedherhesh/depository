@@ -4,9 +4,11 @@
     @include('includes.sidebar')
     <div class="content">
         <div class="d-flex justify-content-center align-items-center mt-3">
-            @foreach ($deliveries as $delivery)
+            @forelse ($deliveries as $delivery)
                 <x-item-delivery :delivery="$delivery" :qty="$qty" />
-            @endforeach
+            @empty
+                @include('includes.empty')
+            @endforelse
         </div>
         <div class="mt-5 d-flex justify-content-center">
             {{ $deliveries->links('vendor.pagination.bootstrap-4') }}

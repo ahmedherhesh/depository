@@ -5,10 +5,10 @@
     --main-color: #ebecee;
     --secondary-color: #6c757d;
     --hover-color: #3b3c3d;
-    --shadow-color:#ccc;
-    --btn-color:#abd8ff;
-    --btn-shadow-color:#76bbf7;
-    --btn-hover-color:var(--btn-shadow-color);
+    --shadow-color: #ccc;
+    --btn-color: #abd8ff;
+    --btn-shadow-color: #76bbf7;
+    --btn-hover-color: var(--btn-shadow-color);
 }
 
 * {
@@ -16,6 +16,30 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    /* background: #f1f1f1; */
+    background-color: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    /* background: #888; */
+    background-color: transparent;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    /* background: #555; */
+    background-color: transparent;
 }
 
 body {
@@ -27,11 +51,12 @@ a {
     cursor: pointer;
     text-decoration: none;
 }
-.table{
+
+.table {
     width: 850px;
     min-width: 850px;
 }
-.table tr{
+.table tr {
     cursor: pointer;
 }
 .d-flex {
@@ -46,7 +71,11 @@ a {
     width: calc(100% - 260px);
     padding: 12px;
 }
-
+.create-btn {
+    position: fixed;
+    top:0 ;
+    margin:90px 40px 0;
+}
 .custom-form {
     max-width: 400px;
     flex-grow: 1;
@@ -179,9 +208,8 @@ a {
 }
 
 .empty-box {
-    margin-top: 150px;
+    margin-top: 50px;
     width: 250px;
-    display: none;
 }
 
 .empty-box img {

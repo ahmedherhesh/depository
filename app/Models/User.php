@@ -23,6 +23,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'status',
         'depot_id'
     ];
 
@@ -44,8 +45,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    
-    function setPasswordAttribute($password){
+
+    function setPasswordAttribute($password)
+    {
         return $this->attributes['password'] = bcrypt($password);
+    }
+    function depot()
+    {
+        return $this->belongsTo(Depository::class,'depot_id');
     }
 }

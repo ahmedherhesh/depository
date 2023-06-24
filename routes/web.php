@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\CompanyController;
+use App\Http\Controllers\Admin\DepositoryController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
@@ -39,20 +42,28 @@ Route::group(['middleware' => 'auth.web'], function () {
         $view->with('categories', $categories);
     });
     Route::get('/', [HomeController::class, 'index'])->name('home');
-    
+
     Route::resource('items', ItemController::class);
     Route::post('item-update', [ItemController::class, 'update'])->name('item.update');
     Route::get('items/{id}/delete', [ItemController::class, 'destroy'])->name('item.delete');
+
     Route::resource('categories', CategoryController::class);
     Route::post('category-update', [CategoryController::class, 'update'])->name('category.update');
     Route::get('sub_categories/{id}', [CategoryController::class, 'subCategories']);
     Route::get('categories/{id}/delete', [CategoryController::class, 'destroy'])->name('category.delete');
-    Route::get('register', [AuthController::class, 'register']);
-    Route::post('register', [AuthController::class, '_register'])->name('register');
-    Route::get('reports', ReportController::class)->name('reports');
+
     Route::get('deliveries', [DeliveryController::class, 'delivery']);
     Route::post('delivery', [DeliveryController::class, '_delivery'])->name('delivery');
+
     Route::get('returned-items', [ReturnItemController::class, 'returnedItems']);
     Route::post('return-item', [ReturnItemController::class, 'returnItem'])->name('return.item');
     Route::get('return-to-stock', [ReturnItemController::class, 'returnToStock'])->name('return.to.stock');
+
+    Route::get('reports', ReportController::class)->name('reports');
+});
+
+Route::group(['middleware' => 'admin'], function () {
+    Route::resource('users', UserController::class);
+    Route::resource('companies', CompanyController::class);
+    Route::resource('depositories', DepositoryController::class);
 });

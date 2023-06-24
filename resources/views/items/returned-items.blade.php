@@ -4,16 +4,15 @@
     @include('includes.sidebar')
     <div class="content">
         <div class="d-flex justify-content-center align-items-center mt-3">
-            @foreach ($returnedItems as $item)
+            @forelse ($returnedItems as $item)
                 <x-item-return :itemReturn="$item" />
-            @endforeach
+            @empty
+                @include('includes.empty')
+            @endforelse
         </div>
         <div class="mt-5 d-flex justify-content-center">
             {{ $returnedItems->links('vendor.pagination.bootstrap-4') }}
         </div>
-        @if (!$returnedItems)
-            @include('includes.empty')
-        @endif
         @include('includes.modals.return-item-modal')
     </div>
 @endsection

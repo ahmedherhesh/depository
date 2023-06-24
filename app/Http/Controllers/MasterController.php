@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 class MasterController extends Controller
 {
-    public $user;
-    public function __construct()
+    public function user()
     {
-        $this->user = session()->get('user') ;
+        return session()->get('user');
+    }
+    public function isAdmin()
+    {
+        if (in_array($this->user()->role, ['super-admin', 'admin']))
+            return true;
     }
 }

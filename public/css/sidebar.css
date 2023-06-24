@@ -32,9 +32,13 @@
 }
 
 .sidebar .nav-item{
-    margin-bottom: 15px;
+    margin-bottom: 8px;
     border-bottom: 1px solid #ddd;
     border-top: 1px solid #ddd;
+}
+.sidebar .nav-item img{
+    width:48px;
+    height: 30px;
 }
 .sidebar .nav-item span{
     border-right: 1px solid #ddd;
