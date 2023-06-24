@@ -30,34 +30,34 @@
             </button>
         </li>
         <li class="nav-item">
-            <a class="nav-link @if (strpos(url()->current(), 'deliveries') != '') active @endif" href="{{ url('deliveries') }}" >
+            <a class="nav-link @if (strpos(url()->current(), 'deliveries') != '') active @endif" href="{{ url('deliveries') }}">
                 <img src="{{ asset('imgs/handshake.svg') }}" alt=""><span>التسليمات</span>
             </a>
         </li>
         <li class="nav-item">
-            <a  class="nav-link @if (strpos(url()->current(), 'returned-items') != '') active @endif" href="{{ url('returned-items') }}">
+            <a class="nav-link @if (strpos(url()->current(), 'returned-items') != '') active @endif" href="{{ url('returned-items') }}">
                 <img src="{{ asset('imgs/assignment_return.svg') }}" alt=""><span>المرتجعات</span>
             </a>
         </li>
         @if (in_array($user->role, ['super-admin', 'admin']))
             <li class="nav-item">
-                <a class="nav-link @if (strpos(url()->current(), 'users') != '') active @endif" href="{{ url('users') }}" >
+                <a class="nav-link @if (strpos(url()->current(), 'users') != '') active @endif" href="{{ url('users') }}">
                     <img src="{{ asset('imgs/users.svg') }}" alt=""><span>المستخدمين</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link @if (strpos(url()->current(), 'depositories') != '') active @endif" href="{{ url('depositories') }}" >
+                <a class="nav-link @if (strpos(url()->current(), 'depositories') != '') active @endif" href="{{ url('depositories') }}">
                     <img src="{{ asset('imgs/store.svg') }}" alt=""><span>المخازن</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link @if (strpos(url()->current(), 'companies') != '') active @endif" href="{{ url('companies') }}" >
-                    <img src="{{ asset('imgs/apartment.svg') }}" alt=""><span>الشركات</span>
                 </a>
             </li>
         @endif
         <li class="nav-item">
-            <a class="nav-link @if (strpos(url()->current(), 'reports') != '') active @endif" href="{{ route('reports') }}" >
+            <a class="nav-link @if (strpos(url()->current(), 'companies') != '') active @endif" href="{{ url('companies') }}">
+                <img src="{{ asset('imgs/apartment.svg') }}" alt=""><span>الشركات</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link @if (strpos(url()->current(), 'reports') != '') active @endif" href="{{ route('reports') }}">
                 <img src="{{ asset('imgs/contract.svg') }}" alt=""><span> التقارير</span>
             </a>
         </li>
