@@ -12,5 +12,10 @@ return [
     'roles' => [
         'user' => 'مستخدم',
         'admin' => 'أدمن',
+    ],
+    'search_in' => [
+        url('items') => 'المنتجات',
+        url('deliveries') => 'التسليمات',
+        url('returned-items') => 'المرتجعات',
     ]
 ];

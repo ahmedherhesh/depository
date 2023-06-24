@@ -24,6 +24,7 @@ class DeliveryController extends MasterController
         //Status
         if ($request->status)
             $deliveries->whereStatus($request->status);
+            
         //between date and date
         if ($request->from && $request->to) {
             $deliveries->whereDate('created_at', '>=',  $request->from)
