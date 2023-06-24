@@ -3,8 +3,6 @@
 namespace App\Http\Requests\Auth;
 
 use App\Http\Requests\MasterRequest;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class UpdateUserRequest extends MasterRequest
 {

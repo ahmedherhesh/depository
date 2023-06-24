@@ -62,8 +62,8 @@ class UserController extends MasterController
         $user = User::find($id);
         if ($user) {
             $data = $request->all();
-            if (trim($data['password']))
-                $data['password'] = $user->password;
+            if (!$data['password'])
+                $data = $request->except('password');
             $update_user = $user->update($data);
             if ($update_user)
                 return redirect()->back()->with('success', 'تم تحديث المستخدم بنجاح');
