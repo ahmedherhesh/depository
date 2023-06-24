@@ -101,11 +101,11 @@
                         @endif
                     </div>
                     <div class="mb-2">
-                        <label for="date" class="form-label">التاريخ</label>
-                        <input type="date" class="form-control" id="date" name="date" autocomplete="off"
-                            value="{{ old('date') }}">
-                        @if ($errors->has('date'))
-                            <span class="text-danger text-direction-rtl">{{ $errors->first('date') }}</span>
+                        <label for="created_at" class="form-label">التاريخ</label>
+                        <input type="date" class="form-control" id="created_at" name="created_at" autocomplete="off"
+                            value="{{ old('created_at') }}">
+                        @if ($errors->has('created_at'))
+                            <span class="text-danger text-direction-rtl">{{ $errors->first('created_at') }}</span>
                         @endif
                     </div>
                     {{-- <div class="mb-2">

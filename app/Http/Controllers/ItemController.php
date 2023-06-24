@@ -16,20 +16,28 @@ class ItemController extends MasterController
         // filter by:
         //terms
         if ($request->q)
-            $items->where('title', 'LIKE', '%' . $request->q . '%')->orWhere('notes', 'LIKE', '%' . $request->q . '%');
+            $items->where('title', 'LIKE', '%' . $request->q . '%');
         //category
         if ($request->cat_id)
             $items->whereCatId($request->cat_id);
+        //Depository
+        if ($request->depot_id && $this->isAdmin())
+            $items->whereDepotId($request->depot_id);
+        //Status
+        if ($request->status)
+            $items->whereStatus($request->status);
         //between date and date
-        if ($request->from && $request->to)
-            $items->whereBetween('date', [$request->from, $request->to]);
+        if ($request->from && $request->to) {
+            $items->whereDate('created_at', '>=',  $request->from)
+                ->whereDate('created_at', '<=',  $request->to);
+        }
         //from date
         else if ($request->from && !$request->to)
-            $items->whereDate('date', '>=',  $request->from);
+            $items->whereDate('created_at', '>=',  $request->from);
         //to date
         else if (!$request->from && $request->to)
-            $items->whereDate('date', '<=',  $request->to);
-        //return date desc
+            $items->whereDate('created_at', '<=',  $request->to);
+        //return data desc
         $items = $items->latest()->paginate(18);
         return view('items.items', ['items' => $items]);
     }

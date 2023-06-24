@@ -90,11 +90,11 @@
                     @endif
                 </div>
                 <div class="mb-2">
-                    <label for="date" class="form-label">التاريخ</label>
-                    <input type="date" class="form-control" id="date" name="date" value="{{ $item->date }}"
+                    <label for="created_at" class="form-label">التاريخ</label>
+                    <input type="date" class="form-control" id="created_at" name="created_at" value="{{ $item->created_at->format('Y-m-d') }}"
                         autocomplete="off">
-                    @if ($errors->has('date'))
-                        <span class="text-danger text-direction-rtl">{{ $errors->first('date') }}</span>
+                    @if ($errors->has('created_at'))
+                        <span class="text-danger text-direction-rtl">{{ $errors->first('created_at') }}</span>
                     @endif
                 </div>
                 <div class="text-center mt-3">

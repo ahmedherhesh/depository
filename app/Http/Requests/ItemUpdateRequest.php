@@ -14,7 +14,6 @@ class ItemUpdateRequest extends MasterRequest
             'item_id' => 'required|exists:items,id',
             'title' => 'required|min:4',
             'notes' => 'nullable|min:4',
-            'date' => 'required',
             'cat_id' => 'nullable|exists:categories,id',
             'sub_cat_id' => 'nullable|exists:categories,id',
             'company_id' => 'nullable|exists:companies,id',
@@ -22,7 +21,8 @@ class ItemUpdateRequest extends MasterRequest
             'price' => 'required|numeric|min:1',
             'qty' => 'required|numeric|min:1',
             'allowed_qty' => 'nullable|numeric|min:1',
-            'status' => 'required|in:new,used,expired'
+            'status' => 'required|in:new,used,expired',
+            'created_at' => 'nullable',
         ];
     }
 }

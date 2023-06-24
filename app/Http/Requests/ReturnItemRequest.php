@@ -19,12 +19,11 @@ class ReturnItemRequest extends MasterRequest
             'returned_item_id' => 'nullable|exists:item_returns,id',
             'delivery_id' => 'required|exists:deliveries,id',
             'recipient_name' => 'required',
-            'notes' => 'required:min:4',
+            'notes' => 'nullable:min:4',
             'qty' => 'required|min:1',
             'status' => 'required|in:new,used,expired',
             'in_stock' => 'nullable|in:0,1',
             'inStock' => 'nullable|in:0,1',
-            'date' => 'required'
         ];
     }
 }

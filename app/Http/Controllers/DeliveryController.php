@@ -12,24 +12,35 @@ class DeliveryController extends MasterController
     public function delivery(Request $request)
     {
         $deliveries = Delivery::query();
-        //terms
-        if ($request->q)
-            $deliveries->with('items')->where('title', 'LIKE', '%' . $request->q . '%');
         //category
         if ($request->cat_id)
-            $deliveries->whereCatId($request->cat_id);
+            $deliveries->whereHas('item', function ($query) use ($request) {
+                $query->whereCatId($request->cat_id);
+            });
         //Depository
         if ($request->depot_id && $this->isAdmin())
             $deliveries->whereDepotId($request->depot_id);
+
+        //Status
+        if ($request->status)
+            $deliveries->whereStatus($request->status);
         //between date and date
-        if ($request->from && $request->to)
-            $deliveries->whereBetween('date', [$request->from, $request->to]);
+        if ($request->from && $request->to) {
+            $deliveries->whereDate('created_at', '>=',  $request->from)
+                ->whereDate('created_at', '<=',  $request->to);
+        }
         //from date
         else if ($request->from && !$request->to)
-            $deliveries->whereDate('date', '>=',  $request->from);
+            $deliveries->whereDate('created_at', '>=',  $request->from);
         //to date
         else if (!$request->from && $request->to)
-            $deliveries->whereDate('date', '<=',  $request->to);
+            $deliveries->whereDate('created_at', '<=',  $request->to);
+        //terms
+        if ($request->q)
+            $deliveries->whereHas('item', function ($query) use ($request) {
+                $query->where('title', 'LIKE', '%' . $request->q . '%');
+            })->orWhere('recipient_name', 'LIKE', '%' . $request->q . '%');
+
         $qty = function ($item_return) {
             $num = 0;
             foreach ($item_return as $item_r) {
@@ -50,7 +61,7 @@ class DeliveryController extends MasterController
         $item = Item::find($request->item_id);
         if ($item->qty >= $request->qty) {
             $data['user_id'] = $user->id;
-            $data['depot_id'] = $user->depot_id;
+            $data['depot_id'] = $item->depot_id;
             $data['status']  = $item->status;
             $delivery = Delivery::create($data);
             if ($delivery) {

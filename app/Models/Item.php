@@ -17,11 +17,11 @@ class Item extends Model
         'title',
         'notes',
         'file',
-        'date',
         'price',
         'qty',
         'allowed_qty',
-        'status'
+        'status',
+        'created_at'
     ];
     function category()
     {
@@ -47,7 +47,8 @@ class Item extends Model
         $user = session()->get('user');
         return $query->whereUserId($user->id)->orWhere('depot_id', $user->depot_id);
     }
-    function scopeInStock($query){
-        return $query->where('qty','>',0);
+    function scopeInStock($query)
+    {
+        return $query->where('qty', '>', 0);
     }
 }

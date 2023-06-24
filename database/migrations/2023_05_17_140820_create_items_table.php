@@ -25,7 +25,6 @@ return new class extends Migration
             $table->double('allowed_qty')->nullable();
             $table->string('file')->nullable();
             $table->enum('status', ['new', 'used', 'expired']);
-            $table->date('date')->nullable();
             $table->timestamps();
         });
     }

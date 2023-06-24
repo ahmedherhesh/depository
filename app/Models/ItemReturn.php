@@ -17,7 +17,6 @@ class ItemReturn extends Model
         'qty',
         'status',
         'in_stock',
-        'date'
     ];
     public function item(){
         return $this->belongsTo(Item::class);
@@ -28,7 +27,7 @@ class ItemReturn extends Model
     public function scopeHave($query){
         $user = session()->get('user');
         //orWhereHas for query continue in diffrent table 
-        return $query->whereUserId($user->id)->orWhereHas('items',function($query) use($user){
+        return $query->whereUserId($user->id)->orWhereHas('item',function($query) use($user){
             $query->whereDepotId($user->depot_id);
         });
     }

@@ -57,14 +57,7 @@
                             <span class="text-danger text-direction-rtl">{{ $errors->first('qty') }}</span>
                         @endif
                     </div>
-                    <div class="mb-2">
-                        <label for="date" class="form-label">التاريخ</label>
-                        <input type="date" class="form-control" id="date" name="date" autocomplete="off"
-                            value="{{ old('date') }}">
-                        @if ($errors->has('date'))
-                            <span class="text-danger text-direction-rtl">{{ $errors->first('date') }}</span>
-                        @endif
-                    </div>
+                    
                     <div class="text-center">
                         <button class="btn ctm-btn mt-3">استرداد</button>
                     </div>

@@ -21,7 +21,6 @@ return new class extends Migration
             $table->double('qty');
             $table->enum('status', ['new', 'used', 'expired']);
             $table->boolean('in_stock')->default(0);
-            $table->date('date')->nullable();
             $table->timestamps();
         });
     }

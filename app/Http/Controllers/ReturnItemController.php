@@ -9,13 +9,42 @@ use App\Models\Item;
 use App\Models\ItemReturn;
 use Illuminate\Http\Request;
 
-class ReturnItemController extends Controller
+class ReturnItemController extends MasterController
 {
-    public function returnedItems()
+    public function returnedItems(Request $request)
     {
-        $user = session()->get('user');
         $returnedItems = ItemReturn::whereInStock(0);
-        if (!in_array($user->role, ['super-admin', 'admin']))
+        //category
+        if ($request->cat_id)
+            $returnedItems->whereHas('item', function ($query) use ($request) {
+                $query->whereCatId($request->cat_id);
+            });
+        //Depository
+        if ($request->depot_id && $this->isAdmin())
+            $returnedItems->whereHas('item', function ($query) use ($request) {
+                $query->whereDepotId($request->depot_id);
+            });
+        //Status
+        if ($request->status)
+            $returnedItems->whereStatus($request->status);
+        //between date and date
+        if ($request->from && $request->to) {
+            $returnedItems->whereDate('created_at', '>=',  $request->from)
+                ->whereDate('created_at', '<=',  $request->to);
+        }
+        //from date
+        else if ($request->from && !$request->to)
+            $returnedItems->whereDate('created_at', '>=',  $request->from);
+        //to date
+        else if (!$request->from && $request->to)
+            $returnedItems->whereDate('created_at', '<=',  $request->to);
+        //terms
+        if ($request->q)
+            $returnedItems->whereHas('item', function ($query) use ($request) {
+                $query->where('title', 'LIKE', '%' . $request->q . '%');
+            })->orWhere('recipient_name', 'LIKE', '%' . $request->q . '%');
+
+        if (!$this->isAdmin())
             $returnedItems = $returnedItems->have();
         $returnedItems = $returnedItems->paginate(18);
         return view('items.returned-items', compact('returnedItems'));
