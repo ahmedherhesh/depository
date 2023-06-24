@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Depository;
+use App\Models\Item;
 use Illuminate\Http\Request;
 
 class DepositoryController extends Controller
@@ -12,8 +14,8 @@ class DepositoryController extends Controller
      */
     public function index()
     {
-        return view('admin.depositories');
-
+        $depositories = Depository::all();
+        return view('admin.depositories', compact('depositories'));
     }
 
     /**
@@ -29,7 +31,17 @@ class DepositoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|min:3'
+        ], [
+            'required' => 'هذا الحقل مطلوب',
+            'min' => 'عدد الأحرف يجب ان يكون 3 على الأقل'
+        ]);
+
+        $depository = Depository::create($request->all());
+        if ($depository)
+            return redirect()->back()->with('success', 'تم اضافة المخزن بنجاح');
+        return redirect()->back()->with('failed', 'حدث خطأ ما حاول مرة أخرى');
     }
 
     /**
@@ -37,7 +49,8 @@ class DepositoryController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $items = Item::whereDepotId($id)->paginate(18);
+        return view('items.items', compact('items'));
     }
 
     /**
@@ -53,7 +66,20 @@ class DepositoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name' => 'required|min:3'
+        ], [
+            'required' => 'هذا الحقل مطلوب',
+            'min' => 'عدد الأحرف يجب ان يكون 3 على الأقل'
+        ]);
+
+        $depository = Depository::find($id);
+        if ($depository) {
+            $depository->update($request->all());
+            return redirect()->back()->with('success', 'تم تعديل المخزن بنجاح');
+        }
+
+        return redirect()->back()->with('failed', 'هذا المخزن غير موجود');
     }
 
     /**
@@ -61,6 +87,11 @@ class DepositoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $depository = Depository::find($id);
+        if ($depository) {
+            $depository->delete($id);
+            return redirect()->back()->with('success', 'تم حذف المخزن بنجاح');
+        }
+        return redirect()->back()->with('failed', 'هذا المخزن غير موجود'); //
     }
 }

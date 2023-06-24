@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Company;
+use App\Models\Item;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
@@ -12,14 +14,49 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        return view('admin.companies');
+        $companies = Company::all();
+        return view('admin.companies', compact('companies'));
     }
 
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|min:3'
+        ], [
+            'required' => 'هذا الحقل مطلوب',
+            'min' => 'عدد الأحرف يجب ان يكون 3 على الأقل'
+        ]);
+
+        $company = Company::create($request->all());
+        if ($company)
+            return redirect()->back()->with('success', 'تم اضافة الشركة بنجاح');
+        return redirect()->back()->with('failed', 'حدث خطأ ما حاول مرة أخرى');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        $items = Item::whereCompanyId($id)->paginate(18);
+        return view('items.items', compact('items'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
     {
         //
     }
@@ -29,7 +66,20 @@ class CompanyController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name' => 'required|min:3'
+        ], [
+            'required' => 'هذا الحقل مطلوب',
+            'min' => 'عدد الأحرف يجب ان يكون 3 على الأقل'
+        ]);
+
+        $company = Company::find($id);
+        if ($company) {
+            $company->update($request->all());
+            return redirect()->back()->with('success', 'تم تعديل اسم الشركة بنجاح');
+        }
+
+        return redirect()->back()->with('failed', 'هذا اسم الشركة غير موجود');
     }
 
     /**
@@ -37,6 +87,11 @@ class CompanyController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $company = Company::find($id);
+        if ($company) {
+            $company->delete($id);
+            return redirect()->back()->with('success', 'تم حذف الشركة بنجاح');
+        }
+        return redirect()->back()->with('failed', 'هذا الشركة غير موجود'); //
     }
 }
