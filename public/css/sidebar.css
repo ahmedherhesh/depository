@@ -14,6 +14,7 @@
 @media(max-width : 640px){
     .sidebar{
         right:-265px;
+        box-shadow: unset;
     }
 }
 .sidebar .navbar-nav{

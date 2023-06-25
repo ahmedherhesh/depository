@@ -39,8 +39,8 @@
             </div>
             @foreach ($depots as $key => $depot)
                 <div class="ctm-table ctm-table-{{ $key }}">
-                    <div class="table-responsive d-flex justify-content-center">
-                        <table class="table table-bordered align-middle text-center">
+                    <div class="table-responsive">
+                        <table class="table table-bordered align-middle text-center m-auto">
                             <thead class="table-dark">
                                 <tr>
                                     <th>م</th>
