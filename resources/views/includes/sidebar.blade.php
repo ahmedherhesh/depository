@@ -1,5 +1,3 @@
-<?php use Illuminate\Support\Facades\Route;
-?>
 <div class="sidebar bg-light">
     <span class="close-icon"><img src="{{ asset('imgs/close.svg') }}" alt=""></span>
     <a href="{{ route('home') }}" class="sidebar-banner d-flex align-items-center gap-2">
@@ -76,7 +74,7 @@
         </ul>
     </div>
 </div>
-
+<div class="outlay"></div>
 @include('includes.modals.search-modal')
 @include('includes.modals.create-category-modal')
 @include('includes.modals.create-item-modal')

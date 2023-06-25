@@ -5,7 +5,26 @@
     left: 50%;
     width: 300px;
     border-radius: 8px;
-    margin-left: -280px;
+    left:calc(50% - 280px);
     padding:4px 12px;
     z-index: 1000;
+}
+.navbar .menu-btn{
+    position: absolute;
+    top: 13px;
+    right: 0;
+    cursor: pointer;
+    display: none;
+}
+.navbar .menu-btn img{
+    width: 48px;
+    height: 30px;
+}
+@media(max-width:640px){
+    .navbar{
+        left:calc(50% - 150px);
+    }
+    .navbar .menu-btn{
+        display: block;
+    }
 }

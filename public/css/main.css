@@ -71,6 +71,11 @@ a {
     width: calc(100% - 260px);
     padding: 12px;
 }
+@media(max-width : 640px){
+    .content{
+        width: 100%;
+    }
+}
 .create-btn {
     position: fixed;
     top:0 ;
