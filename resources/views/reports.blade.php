@@ -69,7 +69,7 @@
                                                 <td>{{ $returned_item->qty }}</td>
                                                 <td>مرتجعات</td>
                                                 <td>{{ $delivery->side_name }}</td>
-                                                <td>{{ $returned_item->date }}</td>
+                                                <td>{{ $returned_item->created_at->format('Y-m-d') }}</td>
                                             </tr>
                                         @endforeach
                                     @endisset
