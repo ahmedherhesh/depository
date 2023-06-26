@@ -85,7 +85,7 @@ class ItemController extends MasterController
         if ($this->isAdmin())
             $item = $item->whereUserId($this->user()->id);
         $item = $item->first();
-        return $item ;
+        return $item;
     }
     public function edit(string $id)
     {
@@ -99,8 +99,12 @@ class ItemController extends MasterController
      */
     public function update(ItemUpdateRequest $request)
     {
+        $data = $request->all();
+        $data['depot_id'] = $this->isAdmin() ? $request->depot_id : $this->user()->depot_id;
         $item = $this->getItem($request->item_id);
-        $item->update($request->all());
+        if (!$request->created_at)
+            unset($data['created_at']);
+        $item->update($data);
         if (!$item) return redirect()->back();
         return redirect()->back()->with('success', 'تم تحديث المنتج بنجاح');
     }

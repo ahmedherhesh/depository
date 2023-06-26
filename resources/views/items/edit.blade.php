@@ -51,11 +51,29 @@
                         <span class="text-danger text-direction-rtl">{{ $errors->first('sub_cat_id') }}</span>
                     @endif
                 </div>
+                @if (in_array($user->role, ['super-admin', 'admin']))
+                    <div class="mb-2">
+                        <label for="depot_id">اختر المخزن</label>
+                        <select class="form-control mt-2" name="depot_id" id="depot_id">
+                            <option value=""></option>
+                            @foreach ($depots as $depot)
+                                <option value="{{ $depot->id }}" @if ($depot->id == old('depot_id') || $depot->id == $item->depot_id) selected @endif>
+                                    {{ $depot->name }}</option>
+                            @endforeach
+                        </select>
+                        @if ($errors->has('depot_id'))
+                            <span class="text-danger text-direction-rtl">{{ $errors->first('depot_id') }}</span>
+                        @endif
+                    </div>
+                @endif
                 <div class="md-2">
                     <label for="company_id">اختر الشركة</label>
                     <select class="form-control mt-2" name="company_id" id="company_id">
                         <option value=""></option>
-                        <option value=""></option>
+                        @foreach ($companies as $company)
+                            <option value="{{ $company->id }}" @if ($company->id == old('company_id') || $company->id == $item->company_id) selected @endif>
+                                {{ $company->name }}</option>
+                        @endforeach
                     </select>
                     @if ($errors->has('company_id'))
                         <span class="text-danger text-direction-rtl">{{ $errors->first('company_id') }}</span>
@@ -91,8 +109,8 @@
                 </div>
                 <div class="mb-2">
                     <label for="created_at" class="form-label">التاريخ</label>
-                    <input type="date" class="form-control" id="created_at" name="created_at" value="{{ $item->created_at->format('Y-m-d') }}"
-                        autocomplete="off">
+                    <input type="date" class="form-control" id="created_at" name="created_at"
+                        value="{{ $item->created_at->format('Y-m-d') }}" autocomplete="off">
                     @if ($errors->has('created_at'))
                         <span class="text-danger text-direction-rtl">{{ $errors->first('created_at') }}</span>
                     @endif
