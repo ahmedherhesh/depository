@@ -16,6 +16,8 @@ class ReportController extends MasterController
         if (!$this->isAdmin())
             $depositories = $depositories->whereId($this->user()->depot_id);
         $depositories = $depositories->get();
-        return view('reports', compact('depositories'));
+        if ($request->inventory == 1)
+            return view('reports.inventory', compact('depositories'));
+        return view('reports.operations', compact('depositories'));
     }
 }

@@ -38,7 +38,9 @@ class ItemController extends MasterController
         else if (!$request->from && $request->to)
             $items->whereDate('created_at', '<=',  $request->to);
         //return data desc
-        $items = $items->latest()->paginate(18);
+        if (!$this->isAdmin())
+            $items->allowed();
+        $items = $items->latest()->paginate(20);
         return view('items.items', ['items' => $items]);
     }
 

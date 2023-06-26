@@ -47,25 +47,28 @@
                             <span class="text-danger text-direction-rtl">{{ $errors->first('sub_cat_id') }}</span>
                         @endif
                     </div>
-
-                    <div class="mb-2">
-                        <label for="depot_id">اختر المخزن</label>
-                        <select class="form-control mt-2" name="depot_id" id="depot_id">
-                            <option value=""></option>
-                            @foreach ($depots as $depot)
-                                <option value="{{$depot->id}}" @if ($depot->id == old('depot_id')) selected @endif>{{$depot->name}}</option>
-                            @endforeach
-                        </select>
-                        @if ($errors->has('depot_id'))
-                            <span class="text-danger text-direction-rtl">{{ $errors->first('depot_id') }}</span>
-                        @endif
-                    </div>
+                    @if (in_array($user->role, ['super-admin', 'admin']))
+                        <div class="mb-2">
+                            <label for="depot_id">اختر المخزن</label>
+                            <select class="form-control mt-2" name="depot_id" id="depot_id">
+                                <option value=""></option>
+                                @foreach ($depots as $depot)
+                                    <option value="{{ $depot->id }}"
+                                        @if ($depot->id == old('depot_id')) selected @endif>{{ $depot->name }}</option>
+                                @endforeach
+                            </select>
+                            @if ($errors->has('depot_id'))
+                                <span class="text-danger text-direction-rtl">{{ $errors->first('depot_id') }}</span>
+                            @endif
+                        </div>
+                    @endif
                     <div class="mb-2">
                         <label for="company_id">اختر الشركة</label>
                         <select class="form-control mt-2" name="company_id" id="company_id">
                             <option value=""></option>
                             @foreach ($companies as $company)
-                                <option value="{{$company->id}}" @if ($company->id == old('company_id')) selected @endif>{{$company->name}}</option>
+                                <option value="{{ $company->id }}" @if ($company->id == old('company_id')) selected @endif>
+                                    {{ $company->name }}</option>
                             @endforeach
                         </select>
                         @if ($errors->has('company_id'))
@@ -129,6 +132,7 @@
 </div>
 
 <script>
+    let cat_id = document.querySelector('#cat_id')
     cat_id.onchange = async function() {
         let data = await fetch(`{{ url('sub_categories/${this.value}') }}`);
         let sub_cats = document.querySelector('.sub-cats');

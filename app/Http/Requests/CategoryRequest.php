@@ -12,6 +12,7 @@ class CategoryRequest extends MasterRequest
         return [
             'user_id' => 'nullable',
             'parent_id' => 'nullable|int|exists:categories,id',
+            'depot_id' => 'nullable|int|exists:depositories,id',
             'name' => 'required|min:4',
         ];
     }

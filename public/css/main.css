@@ -106,7 +106,7 @@ a {
     bottom: 0;
     right: 20px;
     width: fit-content;
-    z-index: 111;
+    z-index: 1500;
 }
 
 .h-100vh {

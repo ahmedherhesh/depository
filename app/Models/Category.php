@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id',  'parent_id', 'name'];
-
-    function items()
+    protected $fillable = ['user_id',  'parent_id', 'depot_id', 'name'];
+    function scopeAllowed($query)
     {
-        return $this->hasMany(Item::class, 'cat_id')->latest()->limit(18);
+        $user = session()->get('user');
+        return $query->whereDepotId($user->depot_id);
     }
     function subCats()
     {

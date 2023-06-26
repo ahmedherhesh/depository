@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('parent_id')->nullable();
+            $table->unsignedBigInteger('depot_id')->nullable();
             $table->string('name');
             $table->timestamps();
         });

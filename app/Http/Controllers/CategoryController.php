@@ -8,14 +8,17 @@ use App\Models\Category;
 use App\Models\Item;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class CategoryController extends MasterController
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $cats = Category::whereParentId(null)->paginate(25);
+        $cats = Category::whereParentId(null);
+        if (!$this->isAdmin())
+            $cats->allowed();
+        $cats = $cats->paginate(18);
         return view('categories.categories', ['cats' => $cats]);
     }
 
@@ -32,13 +35,15 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        $user = session()->get('user');
         $data = $request->all();
-        $data['user_id'] = $user->id;
+        $data['user_id'] = $this->user()->id;
+        $data['depot_id'] = $this->user()->depot_id;
+        if ($this->isAdmin())
+            $data['depot_id'] = $request->depot_id;
         $category = Category::create($data);
         if ($category)
             return redirect()->back()->with('success', 'تم اضافة التصنيف بنجاح');
-        return redirect()->back();
+        return redirect()->back()->with('failed','حدث خطأ ما حول مره اخرى');
     }
 
     /**
@@ -46,7 +51,10 @@ class CategoryController extends Controller
      */
     public function show(string $id)
     {
-        $items = Item::whereCatId($id)->orWhere('sub_cat_id', $id)->latest()->paginate(18);
+        $items = Item::whereCatId($id)->orWhere('sub_cat_id', $id)->latest();
+        if (!$this->isAdmin())
+            $items->allowed();
+        $items = $items->paginate(18);
         return view('categories.category', ['items' => $items]);
     }
 
@@ -64,13 +72,11 @@ class CategoryController extends Controller
     }
     public function getCategory($id)
     {
-        $user = session()->get('user');
         $category = Category::whereId($id);
-        if ($user->role == 'admin')
-            $category = $category->first();
-        else
-            $category = $category->whereUserId($user->id)->first();
-        return $category ? $category : '';
+        if (!$this->isAdmin())
+            $category->whereUserId($this->user()->id);
+        $category = $category->first();
+        return $category;
     }
     /**
      * Update the specified resource in storage.

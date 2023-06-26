@@ -6,9 +6,15 @@
     </a>
     <ul class="navbar-nav">
         <li class="nav-item">
-            <a class="nav-link @if (strpos(url()->current(), '/items') != '') active @endif" aria-current="page"
+            <a class="nav-link @if (strpos(url()->current(), '/items')) active @endif" aria-current="page"
                 href="{{ route('items.index') }}">
                 <img src="{{ asset('imgs/widgets.svg') }}" alt=""> <span> المنتجات </span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link @if (strpos(url()->current(), '/reports') != '' && request()->inventory == 1) active @endif" aria-current="page"
+                href="{{ route('reports') }}?inventory=1">
+                <img src="{{ asset('imgs/widgets.svg') }}" alt=""> <span> جرد المخزن </span>
             </a>
         </li>
         <li class="nav-item">
@@ -55,7 +61,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link @if (strpos(url()->current(), 'reports') != '') active @endif" href="{{ route('reports') }}">
+            <a class="nav-link @if (strpos(url()->current(), 'reports') != '' && request()->inventory != 1) active @endif" href="{{ route('reports') }}">
                 <img src="{{ asset('imgs/contract.svg') }}" alt=""><span> التقارير</span>
             </a>
         </li>
