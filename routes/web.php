@@ -66,6 +66,9 @@ Route::group(['middleware' => 'auth.web'], function () {
 
     Route::get('deliveries', [DeliveryController::class, 'delivery'])->name('deliveries');
     Route::post('delivery', [DeliveryController::class, '_delivery'])->name('delivery');
+    Route::get('delivery-edit/{id}', [DeliveryController::class, 'edit'])->name('delivery.edit');
+    Route::put('delivery-update/{id}', [DeliveryController::class, 'update'])->name('delivery.update');
+    Route::delete('delivery-delete/{id}', [DeliveryController::class, 'destroy'])->name('delivery.delete');
 
     Route::get('returned-items', [ReturnItemController::class, 'returnedItems'])->name('returned.items');
     Route::post('return-item', [ReturnItemController::class, 'returnItem'])->name('return.item');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DeliveryRequest;
+use App\Http\Requests\DeliveryUpdateRequest;
 use App\Models\Delivery;
 use App\Models\Item;
 use Illuminate\Http\Request;
@@ -70,5 +71,58 @@ class DeliveryController extends MasterController
             }
         }
         return redirect()->back()->with('failed', 'الكمية المطلوبة اكبر من العدد المتوفر');
+    }
+    public function getDelivery($id)
+    {
+        $delivery = Delivery::whereId($id);
+        if (!$this->isAdmin())
+            $delivery->allowed()->whereUserId($this->user()->id);
+        $delivery = $delivery->first();
+        return $delivery;
+    }
+    public function edit($id)
+    {
+        $delivery = $this->getDelivery($id);
+        if ($delivery)
+            return view('items.delivered-items-edit', compact('delivery'));
+        return redirect()->back()->with('failed', 'العملية التي تريد تعديلها غير موجوده');
+    }
+    public function update(DeliveryUpdateRequest $request, int $id)
+    {
+        $item = Item::find($request->item_id);
+        if ($item->qty >= $request->qty) {
+            $delivery = $this->getDelivery($id);
+            if ($delivery) {
+                $qty = $delivery->qty;
+                // if qty getter than the last qty
+                if ($request->qty > $qty) {
+                    $qty = (int)$request->qty - (int)$qty;
+                    $qty = ((int)$item->qty - (int)$qty);
+                }
+                // if qty lower than the last qty
+                elseif ($request->qty < $qty) {
+                    $qty = (int)$qty - (int)$request->qty;
+                    $qty = ((int)$item->qty + (int)$qty);
+                }
+                if ($delivery->qty != $qty)
+                    $item->update(['qty' => $qty]);
+                $delivery->update($request->all());
+                return redirect()->back()->with('success', 'تم تحديث عملية التسليم بنجاح');
+            }
+        }
+        return redirect()->back()->with('failed', 'الكمية المطلوبة اكبر من العدد المتوفر');
+    }
+
+    public function destroy(int $id)
+    {
+        $delivery = $this->getDelivery($id);
+        if ($delivery) {
+            $item = Item::find($delivery->item_id);
+            if ($item)
+                $item->update(['qty' => ($item->qty + $delivery->qty)]);
+            $delivery->delete();
+            return redirect()->back()->with('success', 'تم حذف المنتج بنجاح');
+        }
+        return redirect()->back()->with('failed', 'هذه العملية غير متوفرة');
     }
 }
