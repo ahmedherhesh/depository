@@ -26,9 +26,11 @@
     @include('includes.nav')
     @include('includes.sidebar')
     <div class="content">
+        <x-date-filter action="{{route('reports')}}" />
+
         @if ($depositories->isNotEmpty())
-            <div class="table-responsive d-flex justify-content-center">
-                <ul class="nav nav-tabs mb-2" style="width:850px">
+            <div class="table-responsive">
+                <ul class="nav nav-tabs mb-2 m-auto" style="width:850px">
                     @foreach ($depositories as $key => $depot)
                         <li class="nav-item">
                             <a class="nav-link @if ($key == 0) active @endif"

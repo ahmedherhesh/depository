@@ -234,7 +234,14 @@ a {
 .pagination .page-item .page-link {
     color: #000;
 }
+.date-filter{
+    width: fit-content;
+}
 @media print {
+    @page {
+        margin: 0;
+        padding: 16px;
+    }
     .sidebar,
     .navbar {
         display: none !important;
@@ -243,14 +250,13 @@ a {
         top: 0;
         width: 100%;
     }
-    @page {
-        margin: 0;
-        padding: 16px;
-    }
     .nav.nav-tabs {
         display: none;
     }
     .table{
         min-width:unset;
+    }
+    .date-filter{
+        display: none !important;
     }
 }

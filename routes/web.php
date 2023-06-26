@@ -61,10 +61,10 @@ Route::group(['middleware' => 'auth.web'], function () {
     Route::get('sub_categories/{id}', [CategoryController::class, 'subCategories']);
     Route::get('categories/{id}/delete', [CategoryController::class, 'destroy'])->name('category.delete');
 
-    Route::get('deliveries', [DeliveryController::class, 'delivery']);
+    Route::get('deliveries', [DeliveryController::class, 'delivery'])->name('deliveries');
     Route::post('delivery', [DeliveryController::class, '_delivery'])->name('delivery');
 
-    Route::get('returned-items', [ReturnItemController::class, 'returnedItems']);
+    Route::get('returned-items', [ReturnItemController::class, 'returnedItems'])->name('returned.items');
     Route::post('return-item', [ReturnItemController::class, 'returnItem'])->name('return.item');
     Route::get('return-to-stock', [ReturnItemController::class, 'returnToStock'])->name('return.to.stock');
 
