@@ -12,7 +12,7 @@ class HomeController extends MasterController
 {
     function index()
     {
-        $items = Item::query();
+        $items = Item::enabled()->query();
         $items_count = $items;
         $deliveries_count = Delivery::query();
         $returnedItems_count = ItemReturn::query();

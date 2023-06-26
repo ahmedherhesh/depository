@@ -11,7 +11,7 @@ class ItemController extends MasterController
 {
     public function index(Request $request)
     {
-        $items = Item::inStock();
+        $items = Item::enabled()->inStock();
 
         // filter by:
         //terms
@@ -81,12 +81,11 @@ class ItemController extends MasterController
      */
     public function getItem($id)
     {
-        $item = Item::whereId($id);
+        $item = Item::enabled()->whereId($id);
         if ($this->isAdmin())
-            $item = $item->first();
-        else
-            $item = $item->whereUserId($this->user()->id)->first();
-        return $item ? $item : '';
+            $item = $item->whereUserId($this->user()->id);
+        $item = $item->first();
+        return $item ;
     }
     public function edit(string $id)
     {
@@ -113,7 +112,7 @@ class ItemController extends MasterController
     {
         $item = $this->getItem($id);
         if ($item) {
-            $item_delete = $item->delete();
+            $item_delete = $item->update(['deleted' => 1]);
             if ($item_delete)
                 return redirect()->back()->with('success', 'تم حذف المنتج بنجاح');
         }

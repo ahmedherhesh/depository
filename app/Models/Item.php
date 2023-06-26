@@ -21,6 +21,7 @@ class Item extends Model
         'qty',
         'allowed_qty',
         'status',
+        'deleted',
         'created_at'
     ];
     function category()
@@ -50,5 +51,9 @@ class Item extends Model
     function scopeInStock($query)
     {
         return $query->where('qty', '>', 0);
+    }
+    function scopeEnabled($query)
+    {
+        return $query->whereDeleted(0);
     }
 }
