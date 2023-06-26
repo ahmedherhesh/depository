@@ -31,6 +31,23 @@
                                     @endif
                                 @endif
                             @endisset
+                            @if (in_array($user->role, ['super-admin', 'admin']))
+                                <div class="mb-2">
+                                    <label for="depot_id">اختر المخزن</label>
+                                    <select class="form-control mt-2" name="depot_id" id="depot_id">
+                                        <option value=""></option>
+                                        @foreach ($depots as $depot)
+                                            <option value="{{ $depot->id }}"
+                                                @if ($depot->id == old('depot_id') || $depot->id == $category->depot_id) selected @endif>{{ $depot->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @if ($errors->has('depot_id'))
+                                        <span
+                                            class="text-danger text-direction-rtl">{{ $errors->first('depot_id') }}</span>
+                                    @endif
+                                </div>
+                            @endif
                             <div class="form-group mt-3">
                                 <label for="" style="font-size:15px">اسم القسم</label>
                                 <input type="text" class="form-control mt-2 category-name" name="name"

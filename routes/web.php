@@ -39,7 +39,10 @@ Route::controller(AuthController::class)->group(function () {
 Route::group(['middleware' => 'auth.web'], function () {
     view()->composer(['*'], function ($view) {
         $user = session()->get('user');
-        $categories = Category::whereParentId(null)->get();
+        $categories = Category::whereParentId(null);
+        if ($user && !in_array($user->role, ['super-admin', 'admin']))
+            $categories->whereDepotId($user->depot_id);
+        $categories = $categories->get();
         $companies = Company::get();
         $depots = Depository::get();
         $view->with('user', $user);

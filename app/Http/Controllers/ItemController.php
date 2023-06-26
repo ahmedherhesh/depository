@@ -100,8 +100,8 @@ class ItemController extends MasterController
     public function update(ItemUpdateRequest $request)
     {
         $data = $request->all();
-        $data['depot_id'] = $this->isAdmin() ? $request->depot_id : $this->user()->depot_id;
         $item = $this->getItem($request->item_id);
+        $data['depot_id'] = $this->isAdmin() ? $request->depot_id : $item->depot_id;
         if (!$request->created_at)
             unset($data['created_at']);
         $item->update($data);

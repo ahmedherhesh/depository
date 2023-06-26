@@ -40,10 +40,12 @@ class CategoryController extends MasterController
         $data['depot_id'] = $this->user()->depot_id;
         if ($this->isAdmin())
             $data['depot_id'] = $request->depot_id;
+        if (!$data['depot_id'])
+            return redirect()->back()->with('failed', 'يجب عليك اختيار مخزن');
         $category = Category::create($data);
         if ($category)
             return redirect()->back()->with('success', 'تم اضافة التصنيف بنجاح');
-        return redirect()->back()->with('failed','حدث خطأ ما حول مره اخرى');
+        return redirect()->back()->with('failed', 'حدث خطأ ما حول مره اخرى');
     }
 
     /**
@@ -60,7 +62,10 @@ class CategoryController extends MasterController
 
     public function subCategories($parent_id)
     {
-        $sub_categories = Category::whereParentId($parent_id)->get();
+        $sub_categories = Category::whereParentId($parent_id);
+        if (!$this->isAdmin())
+            $sub_categories->whereDepotId($this->user()->depot_id);
+        $sub_categories = $sub_categories->get();
         return response()->json($sub_categories);
     }
     /**
@@ -74,7 +79,7 @@ class CategoryController extends MasterController
     {
         $category = Category::whereId($id);
         if (!$this->isAdmin())
-            $category->whereUserId($this->user()->id);
+            $category->whereDepotId($this->user()->depot_id);
         $category = $category->first();
         return $category;
     }
@@ -83,8 +88,14 @@ class CategoryController extends MasterController
      */
     public function update(CategoryUpdateRequest $request)
     {
+        $data = $request->all();
         $category = $this->getCategory($request->category_id);
-        $category->update($request->all());
+        $data['depot_id'] = $category->depot_id;
+
+        if ($this->isAdmin())
+            $data['depot_id'] = $request->depot_id ?? $category->depot_id;
+
+        $category->update($data);
         if (!$category) return redirect()->back();
         return redirect()->back()->with('success', 'تم تحديث التصنيف بنجاح');
     }

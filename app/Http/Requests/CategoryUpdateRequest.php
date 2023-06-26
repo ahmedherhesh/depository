@@ -13,6 +13,7 @@ class CategoryUpdateRequest extends MasterRequest
             'user_id' => 'nullable',
             'category_id' => 'required|exists:categories,id',
             'parent_id' => 'nullable|int|exists:categories,id',
+            'depot_id' => 'nullable|int|exists:depositories,id',
             'name' => 'nullable|min:4',
         ];
     }
