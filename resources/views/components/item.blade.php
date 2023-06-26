@@ -1,6 +1,7 @@
 <div class="card book mb-2 me-2">
     <div class="book-img bg-light p-2 d-flex justify-content-between">
         <span>{{ $item->qty }}</span>
+        <span>{{config('enums.item_status')[$item->status]}}</span>
         @if ($user->id == $item->user_id || in_array($user->role, ['super-admin', 'admin']))
             <div>
                 <a class="text-secondary" href="{{ route('items.edit', $item->id) }}" class="edit-btn"><i
