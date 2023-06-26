@@ -105,16 +105,19 @@ class DeliveryController extends MasterController
                         $qty = (int)$qty - (int)$request->qty;
                         $qty = ((int)$item->qty + (int)$qty);
                     }
+                    $itemReturnQty = $delivery->itemReturn->sum('qty');
+
                     if ($delivery->qty != $qty)
-                        $item->update(['qty' => $qty]);
-                    $delivery->update($request->all());
+                        $item->update(['qty' => $qty - $itemReturnQty]);
+                    $data = $request->all();
+                    $data['qty'] = (int)$data['qty'] < $delivery->qty ? $data['qty'] + $itemReturnQty : $data['qty'];
+                    $delivery->update($data);
                     return redirect()->back()->with('success', 'تم تحديث عملية التسليم بنجاح');
                 }
             }
             return redirect()->back()->with('failed', 'الكمية المطلوبة اكبر من العدد المتوفر');
         }
         return redirect()->back()->with('failed', 'المنتج غير متوفر');
-
     }
 
     public function destroy(int $id)
@@ -122,8 +125,9 @@ class DeliveryController extends MasterController
         $delivery = $this->getDelivery($id);
         if ($delivery) {
             $item = Item::find($delivery->item_id);
+            $itemReturnQty = $delivery->itemReturn->sum('qty');
             if ($item)
-                $item->update(['qty' => ($item->qty + $delivery->qty)]);
+                $item->update(['qty' => ($item->qty + $delivery->qty) - $itemReturnQty]);
             $delivery->delete();
             return redirect()->back()->with('success', 'تم حذف المنتج بنجاح');
         }
