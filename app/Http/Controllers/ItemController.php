@@ -57,6 +57,9 @@ class ItemController extends MasterController
     {
         $data = $request->all();
         $data['user_id'] = $this->user()->id;
+        if (!$request->created_at)
+            unset($data['created_at']);
+
         if ($this->isAdmin() && !$request->depot_id)
             return redirect()->back()->withInput()->with('failed', 'يجب عليك اختيار مخزن');
 

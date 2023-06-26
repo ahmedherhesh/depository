@@ -16,6 +16,6 @@ class Depository extends Model
     }
     function item()
     {
-        return $this->hasMany(Item::class,'depot_id')->latest()->paginate(20);
+        return $this->hasMany(Item::class,'depot_id')->latest()->paginate(23);
     }
 }

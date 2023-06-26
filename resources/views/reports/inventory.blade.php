@@ -46,8 +46,8 @@
                                     <th>م</th>
                                     <th>عنوان المنتج</th>
                                     <th>الكمية</th>
-                                    <th>نوع العملية</th>
-                                    <th>الجهة</th>
+                                    <th>السعر</th>
+                                    <th>الحاله</th>
                                     <th>التاريخ</th>
                                 </tr>
                             </thead>
@@ -57,8 +57,8 @@
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $item->title }}</td>
                                         <td>{{ $item->qty }}</td>
-                                        <td>تسليمات</td>
-                                        <td></td>
+                                        <td>{{ $item->price }}</td>
+                                        <td>{{ config('enums.item_status')[$item->status] }}</td>
                                         <td>{{ $item->created_at->format('Y-m-d') }}</td>
                                     </tr>
                                 @endforeach
@@ -67,7 +67,7 @@
                     </div>
                     @if ($depot->item()->count())
                         <div class="mt-5 d-flex justify-content-center">
-                            {{ $depot->delivery()->links('vendor.pagination.bootstrap-4') }}
+                            {{ $depot->item()->links('vendor.pagination.bootstrap-4') }}
                         </div>
                     @endif
                 </div>
@@ -88,6 +88,9 @@
             self.addClass('active')
             $(`.ctm-table`).hide()
             $(`.ctm-table-${self.data('index')}`).show()
+        })
+        $('.pagination .page-item .page-link').each(function(index) {
+            $(this).attr('href', $(this).attr('href') + '&inventory=1')
         })
     </script>
 @endsection

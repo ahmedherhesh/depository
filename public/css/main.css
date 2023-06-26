@@ -53,7 +53,7 @@ a {
 }
 
 .table {
-    width: 850px;
+    max-width: 850px;
     min-width: 850px;
 }
 .table tr {
@@ -231,6 +231,26 @@ a {
     font-weight: bold;
     color: #fff;
 }
-.pagination .page-item .page-link{
+.pagination .page-item .page-link {
     color: #000;
+}
+@media print {
+    .sidebar,
+    .navbar {
+        display: none !important;
+    }
+    .content {
+        top: 0;
+        width: 100%;
+    }
+    @page {
+        margin: 0;
+        padding: 16px;
+    }
+    .nav.nav-tabs {
+        display: none;
+    }
+    .table{
+        min-width:unset;
+    }
 }

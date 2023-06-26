@@ -97,6 +97,9 @@
         $('.delivered-item').on('click', function() {
             $(`.returned-item-${$(this).data('index')}`).toggle()
         })
+        $('.pagination .page-item .page-link').each(function(index) {
+            $(this).attr('href', $(this).attr('href') + '&inventory=1')
+        })
         let navTabs = $('.nav-tabs .nav-link');
         navTabs.on('click', function() {
             navTabs.removeClass('active')
