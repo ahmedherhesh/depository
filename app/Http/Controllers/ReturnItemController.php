@@ -45,7 +45,7 @@ class ReturnItemController extends MasterController
             })->orWhere('recipient_name', 'LIKE', '%' . $request->q . '%');
 
         if (!$this->isAdmin())
-            $returnedItems = $returnedItems->have();
+            $returnedItems = $returnedItems->allowed();
         $returnedItems = $returnedItems->paginate(18);
         return view('items.returned-items', compact('returnedItems'));
     }
@@ -84,7 +84,7 @@ class ReturnItemController extends MasterController
         $returnedItem = ItemReturn::whereId($request->returned_item_id)->whereInStock(0);
         $item = Item::whereId($request->item_id);
         if (!in_array($user->role, ['super-admin', 'admin'])) {
-            $returnedItem = $returnedItem->have();
+            $returnedItem = $returnedItem->allowed();
             $item = $item->allowed();
         }
         $item = $item->first();

@@ -12,10 +12,10 @@ class ReportController extends MasterController
      */
     public function __invoke(Request $request)
     {
-        $depots = Depository::query();
+        $depositories = Depository::query();
         if (!$this->isAdmin())
-            $depots = $depots->whereId($this->user()->depot_id);
-        $depots = $depots->get();
-        return view('reports', compact('depots'));
+            $depositories = $depositories->whereId($this->user()->depot_id);
+        $depositories = $depositories->get();
+        return view('reports', compact('depositories'));
     }
 }

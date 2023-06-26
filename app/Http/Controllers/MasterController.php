@@ -12,5 +12,6 @@ class MasterController extends Controller
     {
         if (in_array($this->user()->role, ['super-admin', 'admin']))
             return true;
+        return false;
     }
 }

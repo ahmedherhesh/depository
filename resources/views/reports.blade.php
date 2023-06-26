@@ -26,10 +26,10 @@
     @include('includes.nav')
     @include('includes.sidebar')
     <div class="content">
-        @if ($depots->isNotEmpty())
+        @if ($depositories->isNotEmpty())
             <div class="table-responsive d-flex justify-content-center">
                 <ul class="nav nav-tabs mb-2" style="width:850px">
-                    @foreach ($depots as $key => $depot)
+                    @foreach ($depositories as $key => $depot)
                         <li class="nav-item">
                             <a class="nav-link @if ($key == 0) active @endif"
                                 data-index="{{ $key }}" aria-current="page" href="#">{{ $depot->name }}</a>
@@ -37,7 +37,7 @@
                     @endforeach
                 </ul>
             </div>
-            @foreach ($depots as $key => $depot)
+            @foreach ($depositories as $key => $depot)
                 <div class="ctm-table ctm-table-{{ $key }}">
                     <div class="table-responsive">
                         <table class="table table-bordered align-middle text-center m-auto">
@@ -78,7 +78,7 @@
                             </tbody>
                         </table>
                     </div>
-                    @if ($depot->delivery()->count() )
+                    @if ($depot->delivery()->count())
                         <div class="mt-5 d-flex justify-content-center">
                             {{ $depot->delivery()->links('vendor.pagination.bootstrap-4') }}
                         </div>
