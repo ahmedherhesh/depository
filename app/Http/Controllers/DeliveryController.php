@@ -51,7 +51,7 @@ class DeliveryController extends MasterController
         };
         if (!$this->isAdmin())
             $deliveries = $deliveries->allowed();
-        $deliveries = $deliveries->paginate(18);
+        $deliveries = $deliveries->paginate(20);
         return view('items.deliveried-items', compact('deliveries', 'qty'));
     }
     public function _delivery(DeliveryRequest $request)
