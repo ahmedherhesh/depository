@@ -4,12 +4,11 @@
     @include('includes.sidebar')
     <div class="content">
         <div class="custom-form m-auto mt-5">
-    
+
             <h4 class="text-center mb-2">تعديل عملية تسليم</h4>
             <form action="{{ route('delivery.update', $delivery->id) }}" method="POST">
                 @csrf
                 <input type="hidden" name="_method" value="PUT">
-                <input type="hidden" name="item_id" value="{{$delivery->item->id}}">
                 <div class="mb-2">
                     <label for="recipient_name" class="form-label">اسم المستلم</label>
                     <input type="text" class="form-control" id="recipient_name" name="recipient_name" autocomplete="off"

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ReturnItemRequest;
+use App\Http\Requests\ReturnItemUpdateRequest;
 use App\Http\Requests\ReturnToStockRequest;
 use App\Models\Delivery;
 use App\Models\Item;
@@ -110,5 +111,43 @@ class ReturnItemController extends MasterController
             ]);
         $returnedItem->update(['in_stock' => 1]);
         return redirect()->back()->with('success', 'تم اضافة المنتج للمخزن بنجاح');
+    }
+    public function getReturnedItem($id)
+    {
+        $returned_item = ItemReturn::whereId($id);
+        if (!$this->isAdmin())
+            $returned_item->allowed()->whereUserId($this->user()->id);
+        $returned_item = $returned_item->first();
+        return $returned_item;
+    }
+    public function edit($id)
+    {
+        $returned_item = $this->getReturnedItem($id);
+        if ($returned_item)
+            return view('items.returned-items-edit', compact('returned_item'));
+        return redirect()->back()->with('failed', 'العملية التي تريد تعديلها غير موجوده');
+    }
+    public function update(ReturnItemUpdateRequest $request, int $id)
+    {
+        $returned_item = $this->getReturnedItem($id);
+        $delivery = Delivery::find($returned_item->delivery_id);
+        if ($returned_item) {
+            if ($delivery->qty >= $request->qty) {
+                $returned_item->update($request->all());
+                return redirect()->back()->with('success', 'تم تحديث عملية الاسترداد بنجاح');
+            }
+            return redirect()->back()->with('failed', 'الكمية المطلوبة اكبر من العدد المتوفر');
+        }
+        return redirect()->back()->with('failed', 'عملية الاسترداد غير متوفرة');
+    }
+
+    public function destroy(int $id)
+    {
+        $returned_item = $this->getReturnedItem($id);
+        if ($returned_item) {
+            $returned_item->delete();
+            return redirect()->back()->with('success', 'تم حذف عملية الاسترداد بنجاح');
+        }
+        return redirect()->back()->with('failed', 'هذه العملية غير متوفرة');
     }
 }

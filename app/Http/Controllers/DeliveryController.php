@@ -89,28 +89,32 @@ class DeliveryController extends MasterController
     }
     public function update(DeliveryUpdateRequest $request, int $id)
     {
-        $item = Item::find($request->item_id);
-        if ($item->qty >= $request->qty) {
-            $delivery = $this->getDelivery($id);
-            if ($delivery) {
-                $qty = $delivery->qty;
-                // if qty getter than the last qty
-                if ($request->qty > $qty) {
-                    $qty = (int)$request->qty - (int)$qty;
-                    $qty = ((int)$item->qty - (int)$qty);
+        $delivery = $this->getDelivery($id);
+        $item = Item::find($delivery->item_id);
+        if ($item) {
+            if ($item->qty >= $request->qty) {
+                if ($delivery) {
+                    $qty = $delivery->qty;
+                    // if qty getter than the last qty
+                    if ($request->qty > $qty) {
+                        $qty = (int)$request->qty - (int)$qty;
+                        $qty = ((int)$item->qty - (int)$qty);
+                    }
+                    // if qty lower than the last qty
+                    elseif ($request->qty < $qty) {
+                        $qty = (int)$qty - (int)$request->qty;
+                        $qty = ((int)$item->qty + (int)$qty);
+                    }
+                    if ($delivery->qty != $qty)
+                        $item->update(['qty' => $qty]);
+                    $delivery->update($request->all());
+                    return redirect()->back()->with('success', 'تم تحديث عملية التسليم بنجاح');
                 }
-                // if qty lower than the last qty
-                elseif ($request->qty < $qty) {
-                    $qty = (int)$qty - (int)$request->qty;
-                    $qty = ((int)$item->qty + (int)$qty);
-                }
-                if ($delivery->qty != $qty)
-                    $item->update(['qty' => $qty]);
-                $delivery->update($request->all());
-                return redirect()->back()->with('success', 'تم تحديث عملية التسليم بنجاح');
             }
+            return redirect()->back()->with('failed', 'الكمية المطلوبة اكبر من العدد المتوفر');
         }
-        return redirect()->back()->with('failed', 'الكمية المطلوبة اكبر من العدد المتوفر');
+        return redirect()->back()->with('failed', 'المنتج غير متوفر');
+
     }
 
     public function destroy(int $id)

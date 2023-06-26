@@ -4,8 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DeliveryUpdateRequest extends MasterRequest
+class ReturnItemUpdateRequest extends MasterRequest
 {
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -15,9 +16,10 @@ class DeliveryUpdateRequest extends MasterRequest
     {
         return [
             'recipient_name' => 'required',
-            'side_name' => 'required',
-            'notes' => 'nullable|min:4',
-            'qty' => 'required|numeric',
+            'notes' => 'nullable:min:4',
+            'qty' => 'required|min:1',
+            'status' => 'required|in:new,used,expired',
+            'in_stock' => 'nullable|in:0,1',
         ];
     }
 }

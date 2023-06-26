@@ -73,6 +73,9 @@ Route::group(['middleware' => 'auth.web'], function () {
     Route::get('returned-items', [ReturnItemController::class, 'returnedItems'])->name('returned.items');
     Route::post('return-item', [ReturnItemController::class, 'returnItem'])->name('return.item');
     Route::get('return-to-stock', [ReturnItemController::class, 'returnToStock'])->name('return.to.stock');
+    Route::get('returned-item-edit/{id}', [ReturnItemController::class, 'edit'])->name('returned.item.edit');
+    Route::put('returned-item-update/{id}', [ReturnItemController::class, 'update'])->name('returned.item.update');
+    Route::delete('returned-item-delete/{id}', [ReturnItemController::class, 'destroy'])->name('returned.item.destroy');
 
     Route::resource('companies', CompanyController::class);
     Route::get('reports', ReportController::class)->name('reports');
