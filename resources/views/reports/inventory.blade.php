@@ -26,7 +26,7 @@
     @include('includes.nav')
     @include('includes.sidebar')
     <div class="content">
-        <x-date-filter action="{{route('reports')}}" />
+        <x-date-filter action="{{ route('reports') }}" />
         @if ($depositories->isNotEmpty())
             <div class="table-responsive">
                 <ul class="nav nav-tabs mb-2 m-auto" style="width:850px">
@@ -81,17 +81,5 @@
 
 @section('js')
     @parent
-    <script>
-        let navTabs = $('.nav-tabs .nav-link');
-        navTabs.on('click', function() {
-            navTabs.removeClass('active')
-            let self = $(this)
-            self.addClass('active')
-            $(`.ctm-table`).hide()
-            $(`.ctm-table-${self.data('index')}`).show()
-        })
-        $('.pagination .page-item .page-link').each(function(index) {
-            $(this).attr('href', $(this).attr('href') + '&inventory=1')
-        })
-    </script>
+    <script src="{{asset('js/reports.js')}}"></script>
 @endsection

@@ -40,11 +40,14 @@ Route::group(['middleware' => 'auth.web'], function () {
     view()->composer(['*'], function ($view) {
         $user = session()->get('user');
         $categories = Category::whereParentId(null);
-        if ($user && !in_array($user->role, ['super-admin', 'admin']))
+        $depots = Depository::query();
+        if ($user && !in_array($user->role, ['super-admin', 'admin'])) {
+            $depots->whereId($user->depot_id);
             $categories->whereDepotId($user->depot_id);
+        }
+        $depots = $depots->get();
         $categories = $categories->get();
         $companies = Company::get();
-        $depots = Depository::get();
         $view->with('user', $user);
         $view->with('categories', $categories);
         $view->with('companies', $companies);

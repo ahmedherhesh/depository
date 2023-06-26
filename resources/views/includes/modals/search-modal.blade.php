@@ -27,12 +27,14 @@
                         </div>
                     </div>
                     <div class="d-flex mb-3 justify-content-between " style="gap:10px">
-                        <select class="form-control" style="width:200px" name="depot_id" id="">
-                            <option value="">المخازن</option>
-                            @foreach ($depots as $depot)
-                                <option value="{{ $depot->id }}">{{ $depot->name }}</option>
-                            @endforeach
-                        </select>
+                        @if (in_array($user->role, ['super-admin', 'admin']))
+                            <select class="form-control" style="width:200px" name="depot_id" id="">
+                                <option value="">المخازن</option>
+                                @foreach ($depots as $depot)
+                                    <option value="{{ $depot->id }}">{{ $depot->name }}</option>
+                                @endforeach
+                            </select>
+                        @endif
                         <select class="form-control" style="width:200px" name="status" id="">
                             <option value="">حالة المنتج</option>
                             @foreach (config('enums.item_status') as $key => $status)
@@ -50,8 +52,8 @@
 @section('js')
     @parent
     <script>
-        search_in.onchange = function(){
-            search_form.setAttribute('action',this.value)
+        search_in.onchange = function() {
+            search_form.setAttribute('action', this.value)
         }
     </script>
 @endsection

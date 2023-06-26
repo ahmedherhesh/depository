@@ -1,5 +1,5 @@
-<form action="{{ $action }}" class="date-filter mt-4 d-flex justfy-content-center  gap-2 m-auto ">
-    @if (request()->inventory)
+<form action="{{ $action }}" class="date-filter mt-5 mb-3 d-flex justfy-content-center  gap-2 m-auto ">
+    @if (request()->inventory == 1)
         <input type="hidden" name="inventory" value="1">
     @endif
     <div class="d-flex justify-content-center">
