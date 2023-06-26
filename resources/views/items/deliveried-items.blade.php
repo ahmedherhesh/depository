@@ -5,7 +5,9 @@
     <div class="content">
         <div class="d-flex justify-content-center align-items-center mt-3">
             @forelse ($deliveries as $delivery)
-                <x-item-delivery :delivery="$delivery" :qty="$qty" />
+                @if ($delivery->qty - $qty($delivery->itemReturn))
+                    <x-item-delivery :delivery="$delivery" :qty="$qty" />
+                @endif
             @empty
                 @include('includes.empty')
             @endforelse
