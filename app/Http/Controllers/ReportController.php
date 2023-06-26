@@ -2,21 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Delivery;
 use App\Models\Depository;
 use Illuminate\Http\Request;
 
-class ReportController extends Controller
+class ReportController extends MasterController
 {
     /**
      * Handle the incoming request.
      */
     public function __invoke(Request $request)
     {
-        $user = session()->get('user');
         $depots = Depository::query();
-        if (!in_array($user->role, ['super-admin', 'admin']))
-            $depots = $depots->whereId($user->depot_id);
+        if (!$this->isAdmin())
+            $depots = $depots->whereId($this->user()->depot_id);
         $depots = $depots->get();
         return view('reports', compact('depots'));
     }

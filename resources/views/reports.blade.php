@@ -52,7 +52,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($depot->delivery as $key => $delivery)
+                                @foreach ($depot->delivery() as $key => $delivery)
                                     <tr class="delivered-item" data-index="{{ $key }}">
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $delivery->item->title }}</td>
@@ -74,9 +74,15 @@
                                         @endforeach
                                     @endisset
                                 @endforeach
+
                             </tbody>
                         </table>
                     </div>
+                    @if ($depot->delivery()->count() )
+                        <div class="mt-5 d-flex justify-content-center">
+                            {{ $depot->delivery()->links('vendor.pagination.bootstrap-4') }}
+                        </div>
+                    @endif
                 </div>
             @endforeach
         @else

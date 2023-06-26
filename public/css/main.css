@@ -71,15 +71,15 @@ a {
     width: calc(100% - 260px);
     padding: 12px;
 }
-@media(max-width : 640px){
-    .content{
+@media (max-width: 640px) {
+    .content {
         width: 100%;
     }
 }
 .create-btn {
     position: fixed;
-    top:0 ;
-    margin:90px 40px 0;
+    top: 0;
+    margin: 90px 40px 0;
 }
 .custom-form {
     max-width: 400px;
@@ -207,11 +207,6 @@ a {
     display: none;
 }
 
-.pagination .page-item.active .page-link {
-    background-color: var(--main-color);
-    border-color: var(--main-color);
-}
-
 .empty-box {
     margin-top: 50px;
     width: 250px;
@@ -230,9 +225,12 @@ a {
     justify-content: space-between;
     align-items: center;
 }
-.pagination .page-item.active .page-link{
-    background-color: var(--btn-color);
+.pagination .page-item.active .page-link {
+    background-color: #000;
+    border-color: #000;
     font-weight: bold;
-    font-size: 17px;
+    color: #fff;
+}
+.pagination .page-item .page-link{
     color: #000;
 }

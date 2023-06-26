@@ -24,7 +24,7 @@ class DeliveryController extends MasterController
         //Status
         if ($request->status)
             $deliveries->whereStatus($request->status);
-            
+
         //between date and date
         if ($request->from && $request->to) {
             $deliveries->whereDate('created_at', '>=',  $request->from)
@@ -49,20 +49,20 @@ class DeliveryController extends MasterController
             }
             return $num;
         };
-        if ($this->isAdmin())
-            $deliveries = $deliveries->paginate(18);
+        if (!$this->isAdmin())
+            $deliveries = $deliveries->allowed();
         else
-            $deliveries = $deliveries->whereUserId($this->user()->id)->allowed()->paginate(18);
+            $deliveries = $deliveries->paginate(18);
         return view('items.deliveried-items', compact('deliveries', 'qty'));
     }
     public function _delivery(DeliveryRequest $request)
     {
-        $user = session()->get('user');
         $data = $request->all();
         $item = Item::find($request->item_id);
         if ($item->qty >= $request->qty) {
-            $data['user_id'] = $user->id;
+            $data['user_id'] = $this->user()->id;
             $data['depot_id'] = $item->depot_id;
+            $data['item_id'] = $item->id;
             $data['status']  = $item->status;
             $delivery = Delivery::create($data);
             if ($delivery) {
