@@ -51,7 +51,7 @@ class CategoryController extends MasterController
      */
     public function show(string $id)
     {
-        $items = Item::whereCatId($id)->orWhere('sub_cat_id', $id)->latest();
+        $items = Item::enabled()->whereCatId($id)->orWhere('sub_cat_id', $id)->latest();
         if (!$this->isAdmin())
             $items->allowed();
         $items = $items->paginate(18);
