@@ -18,7 +18,7 @@ class ItemRequest extends MasterRequest
             'company_id' => 'nullable|exists:companies,id',
             'depot_id' => 'nullable|exists:depositories,id',
             'price' => 'required|numeric|min:1',
-            'qty' => 'required|numeric|min:1',
+            'qty' => 'required|numeric|min:1|gt:0',
             'allowed_qty' => 'nullable|numeric|min:1',
             'status' => 'required|in:new,used,expired',
             'created_at' => 'nullable',

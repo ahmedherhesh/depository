@@ -17,7 +17,7 @@ class ReturnItemUpdateRequest extends MasterRequest
         return [
             'recipient_name' => 'required',
             'notes' => 'nullable:min:4',
-            'qty' => 'required|min:1',
+            'qty' => 'required|min:1|gt:0',
             'status' => 'required|in:new,used,expired',
             'in_stock' => 'nullable|in:0,1',
         ];

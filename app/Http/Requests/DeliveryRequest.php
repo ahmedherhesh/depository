@@ -15,7 +15,7 @@ class DeliveryRequest extends MasterRequest
             'side_name' => 'required',
             'notes' => 'nullable|min:4',
             'status' => 'nullable|in:new,used,expired',
-            'qty' => 'required|numeric',
+            'qty' => 'required|numeric|gt:0',
         ];
     }
 }

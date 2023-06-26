@@ -20,7 +20,7 @@ class ReturnItemRequest extends MasterRequest
             'delivery_id' => 'required|exists:deliveries,id',
             'recipient_name' => 'required',
             'notes' => 'nullable:min:4',
-            'qty' => 'required|min:1',
+            'qty' => 'required|min:1|gt:0',
             'status' => 'required|in:new,used,expired',
             'in_stock' => 'nullable|in:0,1',
             'inStock' => 'nullable|in:0,1',
