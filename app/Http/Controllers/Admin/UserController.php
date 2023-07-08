@@ -17,7 +17,7 @@ class UserController extends MasterController
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::where('role','!=','super-admin')->get();
         $depositories = Depository::all();
         return view('admin.users', compact('users', 'depositories'));
     }
@@ -60,7 +60,7 @@ class UserController extends MasterController
     public function update(UpdateUserRequest $request, string $id)
     {
         $user = User::find($id);
-        if ($user) {
+        if ($user && $user->role != 'super-admin') {
             $data = $request->all();
             if (!$data['password'])
                 $data = $request->except('password');
@@ -68,7 +68,7 @@ class UserController extends MasterController
             if ($update_user)
                 return redirect()->back()->with('success', 'تم تحديث المستخدم بنجاح');
         }
-        return redirect()->back()->with('failed', 'هذا المستخدم غير موجود');
+        return redirect()->back()->with('failed', 'لا تملك الصلاحية للتعديل على هذا المستخدم');
     }
 
     /**
@@ -78,7 +78,7 @@ class UserController extends MasterController
     {
         $user = User::find($id);
         $delete_user = null;
-        if ($user && $user->role != 'super-admin')
+        if ($user && !in_array( $user->role,['admin','super-admin']))
             $delete_user = $user->delete();
         if ($delete_user)
             return redirect()->back()->with('success', 'تم حذف المستخدم بنجاح');
