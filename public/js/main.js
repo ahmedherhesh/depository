@@ -13,3 +13,8 @@ function getParams() {
     });
     return paramsObj;
 }
+document.querySelectorAll('.delivery-btn').forEach(el => {
+    el.onclick = function () {
+        item_id.value = this.getAttribute('data-item-id')
+    }
+})

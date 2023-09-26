@@ -16,13 +16,4 @@
         </div>
     </div>
 @endsection
-@section('js')
-    @parent
-    <script>
-        document.querySelectorAll('.delivery-btn').forEach(el => {
-            el.onclick = function() {
-                item_id.value = this.getAttribute('data-item-id')
-            }
-        })
-    </script>
-@endsection
+
