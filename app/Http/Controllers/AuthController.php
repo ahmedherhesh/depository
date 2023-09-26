@@ -18,7 +18,7 @@ class AuthController extends MasterController
     public function _login(LoginRequest $request)
     {
         $user = $request->only('username', 'password');
-        $user = auth()->attempt($user);
+        $user = auth()->attempt($user,true);
         if ($user) {
             $request->session()->put('user', auth()->user());
             return redirect('/');
