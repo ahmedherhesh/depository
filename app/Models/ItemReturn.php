@@ -27,7 +27,7 @@ class ItemReturn extends Model
     public function scopeAllowed($query){
         $user = session()->get('user');
         //orWhereHas for query continue in diffrent table 
-        return $query->orWhereHas('item',function($query) use($user){
+        return $query->whereHas('item',function($query) use($user){
             $query->whereDepotId($user->depot_id);
         });
     }
