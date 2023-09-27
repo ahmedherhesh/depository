@@ -32,14 +32,16 @@
                         <span class="text-danger text-direction-rtl">{{ $errors->first('notes') }}</span>
                     @endif
                 </div>
-                <div class="mb-2">
-                    <label for="qty" class="form-label">الكمية</label>
-                    <input type="number" class="form-control" id="qty" name="qty" autocomplete="off"
-                        value="{{ old('qty') ?? $delivery->qty }}">
-                    @if ($errors->has('qty'))
-                        <span class="text-danger text-direction-rtl">{{ $errors->first('qty') }}</span>
-                    @endif
-                </div>
+                @if (!count($delivery->itemReturn))
+                    <div class="mb-2">
+                        <label for="qty" class="form-label">الكمية</label>
+                        <input type="number" class="form-control" id="qty" name="qty" autocomplete="off"
+                            value="{{ old('qty') ?? $delivery->qty }}">
+                        @if ($errors->has('qty'))
+                            <span class="text-danger text-direction-rtl">{{ $errors->first('qty') }}</span>
+                        @endif
+                    </div>
+                @endif
                 <div class="text-center">
                     <button class="btn ctm-btn mt-3">حفظ</button>
                 </div>
