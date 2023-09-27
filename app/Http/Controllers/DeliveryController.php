@@ -60,10 +60,11 @@ class DeliveryController extends MasterController
         $data = $request->all();
         $item = Item::find($request->item_id);
         if ($item->qty >= $request->qty) {
-            $data['user_id'] = $this->user()->id;
+            $data['user_id']  = $this->user()->id;
             $data['depot_id'] = $item->depot_id;
-            $data['item_id'] = $item->id;
-            $data['status']  = $item->status;
+            $data['item_id']  = $item->id;
+            $data['status']   = $item->status;
+            $data['price']    = $item->price;
             $delivery = Delivery::create($data);
             if ($delivery) {
                 $item->update(['qty' => ((int)$item->qty - (int)$request->qty)]);
@@ -95,21 +96,23 @@ class DeliveryController extends MasterController
             if ($item->qty >= $request->qty) {
                 if ($delivery) {
                     $qty = $delivery->qty;
-                    // if qty getter than the last qty
+                    // if qty getter than the delivery qty
                     if ($request->qty > $qty) {
                         $qty = (int)$request->qty - (int)$qty;
                         $qty = ((int)$item->qty - (int)$qty);
                     }
-                    // if qty lower than the last qty
+                    // if qty lower than the delivery qty
                     elseif ($request->qty < $qty) {
                         $qty = (int)$qty - (int)$request->qty;
                         $qty = ((int)$item->qty + (int)$qty);
                     }
+                    // عشان انا بعتمد على ان اصل الكمية المسلمه تفضل زي ما هي حتى لو مسجل مرتجعات لعملية التسليم وبعد كدا بخصم بعمليه حسابيه 
                     $itemReturnQty = $delivery->itemReturn->sum('qty');
-
+                    // بعد ما جبت الكميه المرتجعه هخصم كمية التسليم الجديده من الكميه المتوفره من المنتج بعد خصم الكميه  المرتجعه من عملية التسليم سابقا 
                     if ($delivery->qty != $qty)
                         $item->update(['qty' => $qty - $itemReturnQty]);
                     $data = $request->all();
+                    // حتى لا يتم تقليل اصل عملية التسليم
                     $data['qty'] = (int)$data['qty'] < $delivery->qty ? $data['qty'] + $itemReturnQty : $data['qty'];
                     $delivery->update($data);
                     return redirect()->back()->with('success', 'تم تحديث عملية التسليم بنجاح');
