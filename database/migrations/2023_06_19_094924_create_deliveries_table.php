@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('recipient_name')->nullable();
             $table->string('side_name')->nullable();
             $table->longText('notes')->nullable();
+            $table->double('price')->nullable();
             $table->enum('status', ['new', 'used', 'expired']);
             $table->double('qty');
             $table->timestamps();

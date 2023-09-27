@@ -17,6 +17,7 @@ class DeliveryUpdateRequest extends MasterRequest
             'recipient_name' => 'required',
             'side_name' => 'required',
             'notes' => 'nullable|min:4',
+            'price' => 'nullable',
             'qty' => 'required|numeric|gt:0',
         ];
     }

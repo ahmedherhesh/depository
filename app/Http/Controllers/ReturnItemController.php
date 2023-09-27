@@ -92,8 +92,11 @@ class ReturnItemController extends MasterController
         $returnedItem = $returnedItem->first();
         if (!$item || !$returnedItem)
             return redirect()->back()->with('failed', 'هذا المنتج غير متوفر او انك لا تملك صلاحية الوصول له');
+        $returned_item_same_status = Item::allowed()->whereTitle($returnedItem->item->title)->whereStatus($returnedItem->status)->first();
         if ($item && $item->status == $returnedItem->status)
             $item->update(['qty' => $item->qty + $returnedItem->qty]);
+        elseif ($returned_item_same_status)
+            $returned_item_same_status->update(['qty' => $returned_item_same_status->qty + $returnedItem->qty]);
         else
             $item = Item::create([
                 'user_id' => $user->id,

@@ -64,6 +64,9 @@ class ItemController extends MasterController
             return redirect()->back()->withInput()->with('failed', 'يجب عليك اختيار مخزن');
 
         $data['depot_id'] = $this->isAdmin() ? $request->depot_id : $this->user()->depot_id;
+        $item = Item::whereTitle($request->title)->whereStatus($request->status)->whereDepotId($data['depot_id'])->first();
+        if ($item)
+            return redirect()->back()->withInput()->with('failed', 'هذا المنتج مضاف سابقا يرجى اختيار عنوان اخر');
         $item = Item::create($data);
         if ($item)
             return redirect()->back()->with('success', 'تم إضافة المنتج بنجاح');

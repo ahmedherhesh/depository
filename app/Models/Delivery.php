@@ -15,6 +15,7 @@ class Delivery extends Model
         'recipient_name',
         'side_name',
         'notes',
+        'price',
         'status',
         'qty',
     ];
