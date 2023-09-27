@@ -49,6 +49,7 @@
                                     <th>عنوان المنتج</th>
                                     <th>الكمية</th>
                                     <th>نوع العملية</th>
+                                    <th>الحالة</th>
                                     <th>الجهة</th>
                                     <th>التاريخ</th>
                                 </tr>
@@ -60,6 +61,7 @@
                                         <td>{{ $delivery->item->title }}</td>
                                         <td>{{ $delivery->qty }}</td>
                                         <td>تسليمات</td>
+                                        <td>{{ config('enums')['item_status'][$delivery->status] }}</td>
                                         <td>{{ $delivery->side_name }}</td>
                                         <td>{{ $delivery->created_at->format('Y-m-d') }}</td>
                                     </tr>
@@ -70,6 +72,7 @@
                                                 <td>{{ $returned_item->item->title }}</td>
                                                 <td>{{ $returned_item->qty }}</td>
                                                 <td>مرتجعات</td>
+                                                <td>{{ config('enums')['item_status'][$returned_item->status] }}</td>
                                                 <td>{{ $delivery->side_name }}</td>
                                                 <td>{{ $returned_item->created_at->format('Y-m-d') }}</td>
                                             </tr>

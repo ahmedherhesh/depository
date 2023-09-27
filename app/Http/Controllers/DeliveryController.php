@@ -6,6 +6,7 @@ use App\Http\Requests\DeliveryRequest;
 use App\Http\Requests\DeliveryUpdateRequest;
 use App\Models\Delivery;
 use App\Models\Item;
+use App\Models\ItemReturn;
 use Illuminate\Http\Request;
 
 class DeliveryController extends MasterController
@@ -131,6 +132,8 @@ class DeliveryController extends MasterController
             $itemReturnQty = $delivery->itemReturn->sum('qty');
             if ($item)
                 $item->update(['qty' => ($item->qty + $delivery->qty) - $itemReturnQty]);
+            if (count($delivery->itemReturn))
+                ItemReturn::where('delivery_id',$delivery->id)->delete();
             $delivery->delete();
             return redirect()->back()->with('success', 'تم حذف المنتج بنجاح');
         }

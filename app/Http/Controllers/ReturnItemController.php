@@ -65,7 +65,7 @@ class ReturnItemController extends MasterController
         $deliverdItem = $deliverdItem->first();
         if ($item) {
             if ($deliverdItem) {
-                if ($deliverdItem->qty >= $request->qty) {
+                if (($deliverdItem->qty - $deliverdItem->itemReturn->sum('qty')) >= $request->qty) {
                     $itemReturn = ItemReturn::create($data);
                     if ($itemReturn) {
                         if ($request->inStock == 1)
@@ -95,8 +95,8 @@ class ReturnItemController extends MasterController
         $returned_item_same_status = Item::allowed()->whereTitle($returnedItem->item->title)->whereStatus($returnedItem->status)->first();
         if ($item && $item->status == $returnedItem->status)
             $item->update(['qty' => $item->qty + $returnedItem->qty]);
-        // elseif ($returned_item_same_status)
-        //     $returned_item_same_status->update(['qty' => $returned_item_same_status->qty + $returnedItem->qty]);
+        elseif ($returned_item_same_status)
+            $returned_item_same_status->update(['qty' => $returned_item_same_status->qty + $returnedItem->qty]);
         else
             $item = Item::create([
                 'user_id' => $user->id,
